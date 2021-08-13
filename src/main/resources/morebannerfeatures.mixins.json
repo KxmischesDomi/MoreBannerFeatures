@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.kxmischesdomi.morebannerfeatures.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "boat.BoatEntityMixin",
+    "boat.BoatEntityRendererMixin",
+    "donkey.DonkeyEntityMixin",
+    "horse.HorseBaseEntityMixin",
+    "horse.HorseBaseEntityRendererMixin",
+    "horse.HorseScreenHandlerMixin",
+    "horse.HorseScreenMixin",
+    "llama.LLamaEntityMixin",
+    "llama.LLamaEntityRendererMixin",
+    "pig.PigEntityMixin",
+    "pig.PigEntityRendererMixin",
+    "piglin.PiglinBruteEntityMixin",
+    "strider.StriderEntityMixin",
+    "strider.StriderEntityRendererMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
