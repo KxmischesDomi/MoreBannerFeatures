@@ -3,13 +3,13 @@
   "id": "morebannerfeatures",
   "version": "${version}",
 
-  "name": "Horse Banners",
-  "description": "Ever wanted to give your horses banners? Probably not but now you can!",
+  "name": "More Banner Features",
+  "description": "Adds plenty of new cool Banner Features",
   "authors": [
     "KxmischesDomi"
   ],
   "contact": {
-    "sources": "https://github.com/KxmischesDomi/HorseBanners"
+    "sources": "https://github.com/KxmischesDomi/MoreBannerFeatures"
   },
 
   "license": "CC0-1.0",
