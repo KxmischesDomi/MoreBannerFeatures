@@ -13,7 +13,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
@@ -144,7 +143,7 @@ public class HorseBaseBannerFeature extends FeatureRenderer<HorseBaseEntity, Hor
 		RendererUtils.modifyMatricesBannerSwing(bannerPart, entity, tickDelta, false, aFloat -> -aFloat);
 
 
-		BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bannerPart, ModelLoader.BANNER_BASE, true, bannerPatterns);
+		RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bannerPart, ModelLoader.BANNER_BASE, true, bannerPatterns);
 	}
 
 }

@@ -1,12 +1,12 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.cat;
 
 import com.mojang.datafixers.util.Pair;
+import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.CatCollarFeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -62,7 +62,7 @@ public abstract class CatCollarFeatureRendererMixin  extends FeatureRenderer<Cat
 
 		if (entity.isTamed()) {
 			render(this.getContextModel(), this.model, SKIN, matrices, vertexConsumers, light, entity, f, g, j, k, l, h, 0, 0, 0);
-			BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, LivingEntityRenderer.getOverlay(entity, 0.0F), collarPart, ModelLoader.BANNER_BASE, true, patterns);
+			RendererUtils.renderCanvas(matrices, vertexConsumers, light, LivingEntityRenderer.getOverlay(entity, 0.0F), collarPart, ModelLoader.BANNER_BASE, true, patterns);
 
 //			for(int i = 0; i < 17 && i < patterns.size(); ++i) {
 //				Pair<BannerPattern, DyeColor> pair = (Pair)patterns.get(i);

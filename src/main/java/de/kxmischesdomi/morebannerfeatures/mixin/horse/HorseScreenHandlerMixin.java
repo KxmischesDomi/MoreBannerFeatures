@@ -11,7 +11,6 @@ import net.minecraft.screen.HorseScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,8 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
  */
 @Mixin(HorseScreenHandler.class)
 public abstract class HorseScreenHandlerMixin extends ScreenHandler {
-
-	@Final @Shadow private Inventory inventory;
 
 	@Shadow public abstract ItemStack transferSlot(PlayerEntity player, int index);
 
