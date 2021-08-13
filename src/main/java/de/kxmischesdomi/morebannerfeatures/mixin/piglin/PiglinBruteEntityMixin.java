@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DyeColor;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -53,7 +53,7 @@ public abstract class PiglinBruteEntityMixin extends AbstractPiglinEntity {
 
 	static {
 		HEAD_BANNER = new ItemStack(Items.BROWN_BANNER);
-		HEAD_BANNER.setCustomName(new LiteralText("§eFortune Banner"));
+		HEAD_BANNER.setCustomName(new TranslatableText("block.minecraft.fortune_banner"));
 		NbtCompound nbtCompound = HEAD_BANNER.getOrCreateSubNbt("BlockEntityTag");
 
 		NbtList nbtList = new NbtList();
