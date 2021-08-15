@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-@Environment(EnvType.CLIENT)
 @Mixin(LlamaEntityRenderer.class)
 public abstract class LLamaEntityRendererMixin extends MobEntityRenderer<LlamaEntity, LlamaEntityModel<LlamaEntity>> {
 

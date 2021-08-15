@@ -38,7 +38,6 @@ import java.util.List;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-@Environment(EnvType.CLIENT)
 @Mixin(BoatEntityRenderer.class)
 public abstract class BoatEntityRendererMixin extends EntityRenderer<BoatEntity> {
 

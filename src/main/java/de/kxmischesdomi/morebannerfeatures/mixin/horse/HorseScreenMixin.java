@@ -25,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-@Environment(EnvType.CLIENT)
 @Mixin(HorseScreen.class)
 public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
 
