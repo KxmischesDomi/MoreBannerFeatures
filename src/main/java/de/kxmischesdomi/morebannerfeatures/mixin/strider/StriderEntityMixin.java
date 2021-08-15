@@ -74,6 +74,7 @@ public abstract class StriderEntityMixin extends AnimalEntity implements Bannera
 	@Inject(method = "interactMob", at = @At(value = "HEAD"), cancellable = true)
 	private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 		if (player.shouldCancelInteraction()) return;
+		if (isBaby()) return;
 
 		ItemStack itemStack = player.getStackInHand(hand);
 		if (itemStack.getItem() instanceof BannerItem) {
