@@ -4,6 +4,9 @@
   "package": "de.kxmischesdomi.morebannerfeatures.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "banner.BannerBlockEntityRendererMixin",
+    "banner.BannerBlockMixin",
+    "banner.WallStandingBlockItemMixin",
     "boat.BoatEntityMixin",
     "boat.BoatEntityRendererMixin",
     "donkey.DonkeyEntityMixin",
