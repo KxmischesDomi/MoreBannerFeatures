@@ -17,7 +17,8 @@
     "pig.PigEntityRendererMixin",
     "piglin.PiglinBruteEntityMixin",
     "strider.StriderEntityMixin",
-    "strider.StriderEntityRendererMixin"
+    "strider.StriderEntityRendererMixin",
+    "trader.TraderLLamaEntityMixin"
   ],
   "client": [
   ],
