@@ -15,7 +15,7 @@ import net.minecraft.util.math.Vec3d;
 public class MoreBannerFeatures implements ModInitializer {
 
 	public static final String MOD_ID = "morebannerfeatures";
-	public static final boolean developmentBuild = true;
+	public static final boolean developmentBuild = false;
 
 	@Override
 	public void onInitialize() {
