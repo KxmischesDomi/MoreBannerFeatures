@@ -4,9 +4,8 @@ import com.mojang.datafixers.util.Pair;
 import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -28,6 +27,8 @@ public class RendererUtils {
 		// DEVELOPMENT OFFSETS FOR TESTING
 		Vec3d offset = MoreBannerFeatures.offset;
 		matrices.translate(offset.getX(), -offset.getY(), offset.getZ());
+		offset = MoreBannerFeatures.scale;
+		matrices.scale((float) offset.getX(), (float) offset.getY(), (float) offset.getZ());
 	}
 
 	public static void modifyMatricesBannerSwing(ModelPart banner, Entity entity, float tickDelta, boolean applyPivotY) {
@@ -53,20 +54,7 @@ public class RendererUtils {
 	 * Own renderCanvas methods copied from {@link net.minecraft.client.render.block.entity.BannerBlockEntityRenderer} for improving the canvas rendering later on.
 	 */
 	public static void renderCanvas(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas, SpriteIdentifier baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns) {
-		renderCanvas(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns, false);
-	}
-
-	public static void renderCanvas(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas, SpriteIdentifier baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns, boolean glint) {
-		canvas.render(matrices, baseSprite.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid, glint), light, overlay);
-
-		for(int i = 0; i < 17 && i < patterns.size(); ++i) {
-			Pair<BannerPattern, DyeColor> pair = (Pair)patterns.get(i);
-			float[] fs = ((DyeColor)pair.getSecond()).getColorComponents();
-			BannerPattern bannerPattern = (BannerPattern)pair.getFirst();
-			SpriteIdentifier spriteIdentifier = isBanner ? TexturedRenderLayers.getBannerPatternTextureId(bannerPattern) : TexturedRenderLayers.getShieldPatternTextureId(bannerPattern);
-			canvas.render(matrices, spriteIdentifier.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline), light, overlay, fs[0], fs[1], fs[2], 1.0F);
-		}
-
+		BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns);
 	}
 
 }

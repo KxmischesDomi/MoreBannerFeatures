@@ -19,6 +19,9 @@
     "pig.PigEntityMixin",
     "pig.PigEntityRendererMixin",
     "piglin.PiglinBruteEntityMixin",
+    "player.CapeFeatureRendererMixin",
+    "player.LivingEntityMixin",
+    "player.PlayerEntityMixin",
     "strider.StriderEntityMixin",
     "strider.StriderEntityRendererMixin",
     "trader.TraderLLamaEntityMixin"

@@ -49,7 +49,6 @@ public class HorseBaseBannerFeature extends FeatureRenderer<HorseBaseEntity, Hor
 	}
 
 	public static void renderSideBanner(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Entity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-		if (bannerPart == null) bannerPart = MinecraftClient.getInstance().getEntityModelLoader().getModelPart(EntityModelLayers.BANNER).getChild("flag");
 		if (entity instanceof Bannerable bannerable) {
 			matrices.push();
 
