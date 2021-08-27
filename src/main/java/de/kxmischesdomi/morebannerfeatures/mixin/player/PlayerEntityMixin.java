@@ -1,6 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.player;
 
 import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.InventoryBannerable;
+import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.cloak.CloakInventory;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +18,8 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements InventoryBannerable {
 
+
+
 	@Shadow public abstract PlayerInventory getInventory();
 
 	public PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
@@ -25,12 +28,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Inventor
 
 	@Override
 	public ItemStack getBannerItem() {
-		return getInventory().getArmorStack(2);
+		return getInventory() instanceof CloakInventory ? ((CloakInventory) getInventory()).getCloak() : ItemStack.EMPTY;
 	}
 
 	@Override
 	public int getSlot() {
-		return 102;
+		return 41;
 	}
 
 }

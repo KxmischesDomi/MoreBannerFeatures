@@ -10,11 +10,11 @@ import net.minecraft.screen.slot.Slot;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-public class HorseBannerSlot extends Slot {
+public class BannerSlot extends Slot {
 
-	private final Entity entity;
+	protected final Entity entity;
 
-	public HorseBannerSlot(Entity entity, Inventory inventory, int index, int x, int y) {
+	public BannerSlot(Entity entity, Inventory inventory, int index, int x, int y) {
 		super(inventory, index, x, y);
 		this.entity = entity;
 	}

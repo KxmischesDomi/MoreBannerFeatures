@@ -20,8 +20,11 @@
     "pig.PigEntityRendererMixin",
     "piglin.PiglinBruteEntityMixin",
     "player.CapeFeatureRendererMixin",
+    "player.InventoryScreenMixin",
     "player.LivingEntityMixin",
     "player.PlayerEntityMixin",
+    "player.PlayerInventoryMixin",
+    "player.PlayerScreenHandlerMixin",
     "strider.StriderEntityMixin",
     "strider.StriderEntityRendererMixin",
     "trader.TraderLLamaEntityMixin"

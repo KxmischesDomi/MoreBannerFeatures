@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.HorseBannerSlot;
+import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.BannerSlot;
 import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.InventoryBannerable;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -34,14 +34,13 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 	@Inject(method = "<init>", at = @At(value = "TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
 	private void init(int syncId, PlayerInventory playerInventory, Inventory inventory, HorseBaseEntity entity, CallbackInfo ci) {
 
-		if (entity instanceof InventoryBannerable) {
-			InventoryBannerable bannerable = (InventoryBannerable) entity;
+		if (entity instanceof InventoryBannerable bannerable) {
 
 			int x = 8;
 			int y = 54;
 			int slot = bannerable.getSlot();
 
-			this.addSlot(new HorseBannerSlot(entity, inventory, slot, x, y));
+			this.addSlot(new BannerSlot(entity, inventory, slot, x, y));
 
 		}
 
