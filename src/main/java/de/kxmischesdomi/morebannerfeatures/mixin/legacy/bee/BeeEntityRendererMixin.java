@@ -1,4 +1,4 @@
-package de.kxmischesdomi.morebannerfeatures.mixin.bee;
+package de.kxmischesdomi.morebannerfeatures.mixin.legacy.bee;
 
 import de.kxmischesdomi.morebannerfeatures.client.feature.BeeBannerFeature;
 import net.minecraft.client.render.entity.BeeEntityRenderer;

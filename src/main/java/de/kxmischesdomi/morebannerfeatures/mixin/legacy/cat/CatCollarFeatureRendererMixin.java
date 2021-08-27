@@ -1,4 +1,4 @@
-package de.kxmischesdomi.morebannerfeatures.mixin.cat;
+package de.kxmischesdomi.morebannerfeatures.mixin.legacy.cat;
 
 import com.mojang.datafixers.util.Pair;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;

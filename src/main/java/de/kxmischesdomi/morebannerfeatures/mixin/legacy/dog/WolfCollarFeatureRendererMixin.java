@@ -1,4 +1,4 @@
-package de.kxmischesdomi.morebannerfeatures.mixin.dog;
+package de.kxmischesdomi.morebannerfeatures.mixin.legacy.dog;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.entity.BannerBlockEntity;
