@@ -1,7 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.utils;
 
 import com.mojang.datafixers.util.Pair;
-import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -25,9 +24,9 @@ public class RendererUtils {
 
 	public static void modifyMatricesDevelopment(MatrixStack matrices) {
 		// DEVELOPMENT OFFSETS FOR TESTING
-		Vec3d offset = MoreBannerFeatures.offset;
+		Vec3d offset = DevelopmentUtils.offset;
 		matrices.translate(offset.getX(), -offset.getY(), offset.getZ());
-		offset = MoreBannerFeatures.scale;
+		offset = DevelopmentUtils.scale;
 		matrices.scale((float) offset.getX(), (float) offset.getY(), (float) offset.getZ());
 	}
 

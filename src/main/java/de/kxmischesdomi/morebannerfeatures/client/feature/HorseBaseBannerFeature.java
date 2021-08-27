@@ -1,9 +1,9 @@
 package de.kxmischesdomi.morebannerfeatures.client.feature;
 
 import com.mojang.datafixers.util.Pair;
-import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
 import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.SideBannerable;
+import de.kxmischesdomi.morebannerfeatures.utils.DevelopmentUtils;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -99,7 +99,7 @@ public class HorseBaseBannerFeature extends FeatureRenderer<HorseBaseEntity, Hor
 		// ADD DEFAULTS
 		Vec3d offset = new Vec3d(0.83F, -0.41F, 0.07F);
 		// DEVELOPMENT OFFSETS FOR TESTING
-		offset = offset.add(MoreBannerFeatures.offset);
+		offset = offset.add(DevelopmentUtils.offset);
 
 		if (beforeRotation) {
 			matrices.translate(0, -offset.getY(), offset.getZ());
@@ -110,7 +110,7 @@ public class HorseBaseBannerFeature extends FeatureRenderer<HorseBaseEntity, Hor
 	}
 
 	private static void scaleMatricesForEntity(MatrixStack matrices, Entity entity) {
-		if (!MoreBannerFeatures.applyEntityOffsets) return;
+		if (!DevelopmentUtils.applyEntityOffsets) return;
 
 		if (entity instanceof SideBannerable bannerable) {
 			Vec3d scaleOffset = bannerable.getScaleOffset();
@@ -120,7 +120,7 @@ public class HorseBaseBannerFeature extends FeatureRenderer<HorseBaseEntity, Hor
 	}
 
 	private static void modifyMatricesForEntity(MatrixStack matrices, Entity entity, boolean beforeRotation) {
-		if (!MoreBannerFeatures.applyEntityOffsets) return;
+		if (!DevelopmentUtils.applyEntityOffsets) return;
 
 		if (entity instanceof SideBannerable bannerable) {
 
