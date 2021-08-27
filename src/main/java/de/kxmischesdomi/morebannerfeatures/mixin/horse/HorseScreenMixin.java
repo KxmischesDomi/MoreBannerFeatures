@@ -3,8 +3,6 @@ package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
 import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HorseScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -28,7 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(HorseScreen.class)
 public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
 
-	private static final Identifier TEXTURE = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/container/horse.png");
+	private static final Identifier BANNER_ICON = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/banner.png");
+	private static final Identifier BANNER_BACKGROUND = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/background.png");
 
 	@Shadow @Final private HorseBaseEntity entity;
 
@@ -40,13 +39,17 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
 	public void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci) {
 
 		if (this.entity instanceof Bannerable) {
-
-			RenderSystem.setShaderTexture(0, TEXTURE);
-
 			int i = (this.width - this.backgroundWidth) / 2;
 			int j = (this.height - this.backgroundHeight) / 2;
 
-			this.drawTexture(matrices, i + 7, j + 35 + 18, 54, this.backgroundHeight + 54, 18, 18);
+			RenderSystem.setShaderTexture(0, BANNER_BACKGROUND);
+			drawTexture(matrices, i + 7, j + 35 + 18, 0, 0, 18, 18, 18, 18);
+
+			if (((Bannerable) this.entity).getBannerItem().isEmpty()) {
+				RenderSystem.setShaderTexture(0, BANNER_ICON);
+				drawTexture(matrices, i + 7, j + 35 + 18, 0, 0, 18, 18, 18, 18);
+			}
+
 		}
 	}
 
