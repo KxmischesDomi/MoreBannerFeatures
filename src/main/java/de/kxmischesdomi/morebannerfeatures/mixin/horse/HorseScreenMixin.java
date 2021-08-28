@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(HorseScreen.class)
 public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
 
-	private static final Identifier BANNER_ICON = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/banner_horse.png");
+	private static final Identifier BANNER_ICON = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/banner.png");
 
 	@Shadow @Final private HorseBaseEntity entity;
 
