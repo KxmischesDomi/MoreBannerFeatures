@@ -1,8 +1,8 @@
 package de.kxmischesdomi.morebannerfeatures;
 
 import de.kxmischesdomi.morebannerfeatures.utils.DevelopmentUtils;
-import dev.emi.trinkets.TrinketsMain;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.FabricLoader;
 import net.minecraft.util.Identifier;
 
 public class MoreBannerFeatures implements ModInitializer {
@@ -21,13 +21,7 @@ public class MoreBannerFeatures implements ModInitializer {
 			DevelopmentUtils.initDevelopmentTools();
 		}
 
-		try {
-			String modId = TrinketsMain.MOD_ID;
-			trinketsInstalled = true;
-		} catch (Exception exception) {
-			 trinketsInstalled = false;
-		}
-
+		trinketsInstalled = FabricLoader.INSTANCE.getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equals("trinkets"));
 	}
 
 	public static boolean isTrinketsInstalled() {
