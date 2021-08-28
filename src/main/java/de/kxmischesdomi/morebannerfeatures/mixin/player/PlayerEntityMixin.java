@@ -37,9 +37,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Bannerab
 			if (trinketComponent != null) {
 				Map<String, Map<String, TrinketInventory>> inventory = trinketComponent.getInventory();
 				TrinketInventory trinketInventory = inventory.get("chest").get("cape");
-				ItemStack stack = trinketInventory.getStack(0);
-				System.out.println(stack);
-				return stack;
+				return trinketInventory.getStack(0);
 			}
 
 		}
