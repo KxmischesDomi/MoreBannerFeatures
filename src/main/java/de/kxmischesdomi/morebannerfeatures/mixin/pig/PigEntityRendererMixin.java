@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.pig;
 
-import de.kxmischesdomi.morebannerfeatures.client.feature.PigBannerFeature;
+import de.kxmischesdomi.morebannerfeatures.client.feature.PigBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.PigEntityRenderer;
@@ -24,7 +24,7 @@ public abstract class PigEntityRendererMixin extends MobEntityRenderer<PigEntity
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context context, CallbackInfo ci) {
-		addFeature(new PigBannerFeature(this));
+		addFeature(new PigBannerFeatureRenderer(this));
 	}
 
 }

@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.strider;
 
-import de.kxmischesdomi.morebannerfeatures.client.feature.StriderBannerFeature;
+import de.kxmischesdomi.morebannerfeatures.client.feature.StriderBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.StriderEntityRenderer;
@@ -24,7 +24,7 @@ public abstract class StriderEntityRendererMixin extends MobEntityRenderer<Strid
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context context, CallbackInfo ci) {
-		addFeature(new StriderBannerFeature(this));
+		addFeature(new StriderBannerFeatureRenderer(this));
 	}
 
 

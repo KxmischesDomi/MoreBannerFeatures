@@ -14,15 +14,15 @@ import net.minecraft.entity.passive.PigEntity;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class PigBannerFeature extends FeatureRenderer<PigEntity, PigEntityModel<PigEntity>> {
+public class PigBannerFeatureRenderer extends FeatureRenderer<PigEntity, PigEntityModel<PigEntity>> {
 
-	public PigBannerFeature(FeatureRendererContext<PigEntity, PigEntityModel<PigEntity>> context) {
+	public PigBannerFeatureRenderer(FeatureRendererContext<PigEntity, PigEntityModel<PigEntity>> context) {
 		super(context);
 	}
 
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, PigEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-		HorseBaseBannerFeature.renderSideBanner(matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
+		HorseBaseBannerFeatureRenderer.renderSideBanner(matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
 	}
 
 }

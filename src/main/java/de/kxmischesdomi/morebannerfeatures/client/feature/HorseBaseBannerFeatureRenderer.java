@@ -34,11 +34,11 @@ import java.util.List;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class HorseBaseBannerFeature extends FeatureRenderer<HorseBaseEntity, HorseEntityModel<HorseBaseEntity>> {
+public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEntity, HorseEntityModel<HorseBaseEntity>> {
 
 	private static ModelPart bannerPart;
 
-	public HorseBaseBannerFeature(FeatureRendererContext<HorseBaseEntity, HorseEntityModel<HorseBaseEntity>> context) {
+	public HorseBaseBannerFeatureRenderer(FeatureRendererContext<HorseBaseEntity, HorseEntityModel<HorseBaseEntity>> context) {
 		super(context);
 		bannerPart = MinecraftClient.getInstance().getEntityModelLoader().getModelPart(EntityModelLayers.BANNER).getChild("flag");
 	}

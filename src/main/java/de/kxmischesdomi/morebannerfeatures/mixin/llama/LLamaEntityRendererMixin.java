@@ -1,8 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.llama;
 
-import de.kxmischesdomi.morebannerfeatures.client.feature.LLamaBannerFeature;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import de.kxmischesdomi.morebannerfeatures.client.feature.LLamaBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.LlamaEntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -27,7 +25,7 @@ public abstract class LLamaEntityRendererMixin extends MobEntityRenderer<LlamaEn
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void render(Context ctx, EntityModelLayer layer, CallbackInfo ci) {
-		addFeature(new LLamaBannerFeature(this));
+		addFeature(new LLamaBannerFeatureRenderer(this));
 	}
 
 }

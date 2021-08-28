@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
-import de.kxmischesdomi.morebannerfeatures.client.feature.HorseBaseBannerFeature;
+import de.kxmischesdomi.morebannerfeatures.client.feature.HorseBaseBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.HorseBaseEntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -24,7 +24,7 @@ public abstract class HorseBaseEntityRendererMixin<M extends HorseEntityModel<Ho
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void render(Context ctx, M model, float scale, CallbackInfo ci) {
-		addFeature(new HorseBaseBannerFeature(this));
+		addFeature(new HorseBaseBannerFeatureRenderer(this));
 	}
 
 }
