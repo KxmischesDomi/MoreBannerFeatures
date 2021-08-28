@@ -42,10 +42,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Bannerab
 				return stack;
 			}
 
-			SlotGroup group = TrinketsApi.getPlayerSlots().get("chest");
-			Map<String, SlotType> slots = group.getSlots();
-			SlotType cape = slots.get("cape");
-
 		}
 		return getInventory().getArmorStack(2);
 	}
