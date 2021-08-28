@@ -1,7 +1,8 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.player;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.InventoryBannerable;
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.cloak.CloakInventory;
+import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
+import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import dev.emi.trinkets.api.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,14 +12,15 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Map;
+import java.util.Optional;
+
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements InventoryBannerable {
-
-
+public abstract class PlayerEntityMixin extends LivingEntity implements Bannerable {
 
 	@Shadow public abstract PlayerInventory getInventory();
 
@@ -28,12 +30,24 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Inventor
 
 	@Override
 	public ItemStack getBannerItem() {
-		return getInventory() instanceof CloakInventory ? ((CloakInventory) getInventory()).getCloak() : ItemStack.EMPTY;
-	}
+		if (MoreBannerFeatures.isTrinketsInstalled()) {
+			Optional<TrinketComponent> component = TrinketsApi.getTrinketComponent(this);
+			TrinketComponent trinketComponent = component.orElse(null);
 
-	@Override
-	public int getSlot() {
-		return 41;
+			if (trinketComponent != null) {
+				Map<String, Map<String, TrinketInventory>> inventory = trinketComponent.getInventory();
+				TrinketInventory trinketInventory = inventory.get("chest").get("cape");
+				ItemStack stack = trinketInventory.getStack(0);
+				System.out.println(stack);
+				return stack;
+			}
+
+			SlotGroup group = TrinketsApi.getPlayerSlots().get("chest");
+			Map<String, SlotType> slots = group.getSlots();
+			SlotType cape = slots.get("cape");
+
+		}
+		return getInventory().getArmorStack(2);
 	}
 
 }

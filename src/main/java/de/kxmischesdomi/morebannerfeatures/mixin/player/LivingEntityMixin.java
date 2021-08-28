@@ -1,5 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.player;
 
+import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -26,6 +27,7 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@Inject(method = "getPreferredEquipmentSlot", at = @At(value = "HEAD"), cancellable = true)
 	private static void getPreferredEquipmentSlot(ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
+		if (MoreBannerFeatures.isTrinketsInstalled()) return;
 		Item item = stack.getItem();
 
 		if (item instanceof BannerItem) {
