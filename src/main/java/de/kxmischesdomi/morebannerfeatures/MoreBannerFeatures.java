@@ -8,9 +8,9 @@ import net.minecraft.util.Identifier;
 public class MoreBannerFeatures implements ModInitializer {
 
 	public static final String MOD_ID = "morebannerfeatures";
-	public static final boolean developmentBuild = true;
+	public static final boolean developmentBuild = false;
 
-	public static boolean trinketsInstalled;
+	public static Boolean trinketsInstalled = null;
 
 	public static final Identifier BANNER_BACKGROUND = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/background.png");
 
@@ -21,10 +21,12 @@ public class MoreBannerFeatures implements ModInitializer {
 			DevelopmentUtils.initDevelopmentTools();
 		}
 
-		trinketsInstalled = FabricLoader.INSTANCE.getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equals("trinkets"));
 	}
 
 	public static boolean isTrinketsInstalled() {
+		if (trinketsInstalled == null) {
+			trinketsInstalled = FabricLoader.INSTANCE.getAllMods().stream().anyMatch(modContainer -> modContainer.getMetadata().getId().equalsIgnoreCase("trinkets"));
+		}
 		return trinketsInstalled;
 	}
 

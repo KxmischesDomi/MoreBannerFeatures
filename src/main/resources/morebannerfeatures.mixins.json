@@ -22,6 +22,7 @@
     "player.CapeFeatureRendererMixin",
     "player.LivingEntityMixin",
     "player.PlayerEntityMixin",
+    "player.PlayerRendererMixin",
     "strider.StriderEntityMixin",
     "strider.StriderEntityRendererMixin",
     "trader.TraderLLamaEntityMixin"
