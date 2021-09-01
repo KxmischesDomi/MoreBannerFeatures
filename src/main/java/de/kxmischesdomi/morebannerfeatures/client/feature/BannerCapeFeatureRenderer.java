@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @Environment(EnvType.CLIENT)
 public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
 
-	private ModelPart cloak;
+	private final ModelPart cloak;
 
 	public BannerCapeFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> featureRendererContext) {
 		super(featureRendererContext);
@@ -55,12 +55,12 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 			if (!itemStack.isOf(Items.ELYTRA)) {
 				matrices.push();
 				matrices.translate(0.0D, 0.0D, 0.125D);
-				double d = MathHelper.lerp((double)tickDelta, player.prevCapeX, player.capeX) - MathHelper.lerp((double)tickDelta, player.prevX, player.getX());
-				double e = MathHelper.lerp((double)tickDelta, player.prevCapeY, player.capeY) - MathHelper.lerp((double)tickDelta, player.prevY, player.getY());
-				double m = MathHelper.lerp((double)tickDelta, player.prevCapeZ, player.capeZ) - MathHelper.lerp((double)tickDelta, player.prevZ, player.getZ());
+				double d = MathHelper.lerp(tickDelta, player.prevCapeX, player.capeX) - MathHelper.lerp(tickDelta, player.prevX, player.getX());
+				double e = MathHelper.lerp(tickDelta, player.prevCapeY, player.capeY) - MathHelper.lerp(tickDelta, player.prevY, player.getY());
+				double m = MathHelper.lerp(tickDelta, player.prevCapeZ, player.capeZ) - MathHelper.lerp(tickDelta, player.prevZ, player.getZ());
 				float n = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw);
-				double o = (double)MathHelper.sin(n * 0.017453292F);
-				double p = (double)(-MathHelper.cos(n * 0.017453292F));
+				double o = MathHelper.sin(n * 0.017453292F);
+				double p = -MathHelper.cos(n * 0.017453292F);
 				float q = (float)e * 10.0F;
 				q = MathHelper.clamp(q, -6.0F, 32.0F);
 				float r = (float)(d * o + m * p) * 100.0F;

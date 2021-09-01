@@ -1,7 +1,6 @@
-package de.kxmischesdomi.morebannerfeatures.mixin.legacy.bee;
+package de.kxmischesdomi.morebannerfeatures.mixin.bee;
 
 import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
-import de.kxmischesdomi.morebannerfeatures.utils.BannerUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -16,15 +15,13 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(BeeEntity.class)
 public abstract class BeeEntityMixin extends AnimalEntity implements Bannerable {
 
-	ItemStack randomBannerItemStack = BannerUtils.getRandomBannerItemStack(random);
-
 	public BeeEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
 	@Override
 	public ItemStack getBannerItem() {
-		return randomBannerItemStack;
+		return ItemStack.EMPTY;
 	}
 
 }

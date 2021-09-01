@@ -8,7 +8,7 @@ public interface InventoryBannerable extends Bannerable {
 
 	/**
 	 * @return the slot where the banner is in.
-	 * Used for the horse and player inventory
+	 * Used for the horse inventories
 	 */
 	default int getSlot() { return 2; }
 

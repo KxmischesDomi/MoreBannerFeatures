@@ -66,8 +66,8 @@ public class StriderBannerFeatureRenderer extends FeatureRenderer<StriderEntity,
 			this.pillar.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 			this.crossbar.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 			RendererUtils.modifyMatricesBannerSwing(this.banner, entity, tickDelta, true);
-
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFreezing() || entity.isCold());
+
 			RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
 
 			matrices.pop();
