@@ -51,8 +51,9 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		if (hasCustomBanner(player) && !player.isInvisible()) {
+			ItemStack bannerItem = ((Bannerable) player).getBannerItem();
 			ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
-			if (!itemStack.isOf(Items.ELYTRA)) {
+			if (bannerItem.getItem() instanceof BannerItem && !itemStack.isOf(Items.ELYTRA)) {
 				matrices.push();
 				matrices.translate(0.0D, 0.0D, 0.125D);
 				double d = MathHelper.lerp(tickDelta, player.prevCapeX, player.capeX) - MathHelper.lerp(tickDelta, player.prevX, player.getX());
@@ -83,7 +84,6 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 				matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
 				matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - s / 2.0F));
 
-				ItemStack bannerItem = ((Bannerable) player).getBannerItem();
 				List<Pair<BannerPattern, DyeColor>> patterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) bannerItem.getItem()).getColor(), BannerBlockEntity.getPatternListTag(bannerItem));
 
 				RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak, ModelLoader.BANNER_BASE, true, patterns);
