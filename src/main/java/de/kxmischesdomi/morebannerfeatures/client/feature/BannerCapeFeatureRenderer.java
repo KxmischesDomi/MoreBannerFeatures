@@ -84,9 +84,14 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 				matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
 				matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - s / 2.0F));
 
-				List<Pair<BannerPattern, DyeColor>> patterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) bannerItem.getItem()).getColor(), BannerBlockEntity.getPatternListTag(bannerItem));
+				// Safety try catch to avoid crashes!
+				try {
+					List<Pair<BannerPattern, DyeColor>> patterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) bannerItem.getItem()).getColor(), BannerBlockEntity.getPatternListTag(bannerItem));
+					RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak, ModelLoader.BANNER_BASE, true, patterns);
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
 
-				RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak, ModelLoader.BANNER_BASE, true, patterns);
 
 				matrices.pop();
 			}
