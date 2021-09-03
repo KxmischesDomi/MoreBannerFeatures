@@ -9,7 +9,9 @@
     "KxmischesDomi"
   ],
   "contact": {
-    "sources": "https://github.com/KxmischesDomi/MoreBannerFeatures"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/more-banner-features",
+    "sources": "https://github.com/KxmischesDomi/MoreBannerFeatures",
+    "issues": "https://github.com/KxmischesDomi/MoreBannerFeatures/issues"
   },
 
   "license": "CC0-1.0",
