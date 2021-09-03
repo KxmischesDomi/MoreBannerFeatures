@@ -45,7 +45,7 @@ public abstract class PigEntityMixin extends AnimalEntity implements SideBannera
 
 	@Override
 	public float getXOffset() {
-		return isSaddled() ? 0.39F : 0.39F - 0.1F;
+		return isSaddled() ? 0.39F : 0.29F;
 	}
 
 	@Override
