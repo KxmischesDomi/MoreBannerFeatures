@@ -12,8 +12,6 @@ public class MoreBannerFeatures implements ModInitializer {
 
 	public static Boolean trinketsInstalled = null;
 
-	public static final Identifier BANNER_BACKGROUND = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/background.png");
-
 	@Override
 	public void onInitialize() {
 

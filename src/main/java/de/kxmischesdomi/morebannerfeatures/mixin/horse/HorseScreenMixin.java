@@ -26,7 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(HorseScreen.class)
 public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
 
-	private static final Identifier BANNER_ICON = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/banner.png");
+	private static final Identifier SLOT_BACKGROUND = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/background.png");
+	private static final Identifier SLOT_ICON = new Identifier(MoreBannerFeatures.MOD_ID, "textures/gui/banner.png");
 
 	@Shadow @Final private HorseBaseEntity entity;
 
@@ -41,11 +42,11 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
 			int i = (this.width - this.backgroundWidth) / 2;
 			int j = (this.height - this.backgroundHeight) / 2;
 
-			RenderSystem.setShaderTexture(0, MoreBannerFeatures.BANNER_BACKGROUND);
+			RenderSystem.setShaderTexture(0, SLOT_BACKGROUND);
 			drawTexture(matrices, i + 7, j + 35 + 18, 0, 0, 18, 18, 18, 18);
 
 			if (((Bannerable) this.entity).getBannerItem().isEmpty()) {
-				RenderSystem.setShaderTexture(0, BANNER_ICON);
+				RenderSystem.setShaderTexture(0, SLOT_ICON);
 				drawTexture(matrices, i + 7, j + 35 + 18, 0, 0, 18, 18, 18, 18);
 			}
 

@@ -43,11 +43,9 @@ public class StriderBannerFeatureRenderer extends FeatureRenderer<StriderEntity,
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, StriderEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 
-		if (entity instanceof Bannerable) {
-			Bannerable bannerable = (Bannerable) entity;
+		if (entity instanceof Bannerable bannerable) {
 			ItemStack itemStack = bannerable.getBannerItem();
 			if (itemStack == null || !(itemStack.getItem() instanceof BannerItem)) return;
-			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
 
 			matrices.push();
 
@@ -68,7 +66,14 @@ public class StriderBannerFeatureRenderer extends FeatureRenderer<StriderEntity,
 			RendererUtils.modifyMatricesBannerSwing(this.banner, entity, tickDelta, true);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFreezing() || entity.isCold());
 
-			RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
+			// Safety try catch to avoid crashes!
+			try {
+				List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
+				RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
+
+			} catch (Exception exception) {
+				exception.printStackTrace();
+			}
 
 			matrices.pop();
 

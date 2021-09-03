@@ -67,11 +67,9 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 
 			// START MODIFYING
 			scaleMatricesForEntity(matrices, entity);
+			matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
 			modifyMatricesDefault(matrices, true);
 			modifyMatricesForEntity(matrices, entity, true);
-			matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
-			modifyMatricesDefault(matrices, false);
-			modifyMatricesForEntity(matrices, entity, false);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFreezing());
 
 			// FINISHED MODIFYING
@@ -82,8 +80,6 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 
 			// START MODIFYING
 			scaleMatricesForEntity(matrices, entity);
-			modifyMatricesDefault(matrices, true);
-			modifyMatricesForEntity(matrices, entity, true);
 			matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(90));
 			modifyMatricesDefault(matrices, false);
 			modifyMatricesForEntity(matrices, entity, false);
@@ -95,18 +91,39 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 		}
 	}
 
-	private static void modifyMatricesDefault(MatrixStack matrices, boolean beforeRotation) {
+	private static Vec3d modifyMatricesDefault(MatrixStack matrices, boolean first) {
 		// ADD DEFAULTS
 		Vec3d offset = new Vec3d(0.83F, -0.41F, 0.07F);
 		// DEVELOPMENT OFFSETS FOR TESTING
 		offset = offset.add(DevelopmentUtils.offset);
 
-		if (beforeRotation) {
-			matrices.translate(0, -offset.getY(), offset.getZ());
+		if (first) {
+			matrices.translate(-offset.getZ(), -offset.getY(), offset.getX());
 		} else {
-			// OLD {z} AXIS IS NOW {x} AXIS AND THE OLD {x} IS NOW THE {z}
-			matrices.translate(0, 0, offset.getX());
+			matrices.translate(offset.getZ(), -offset.getY(), offset.getX());
+
 		}
+
+		return offset;
+	}
+
+	private static Vec3d modifyMatricesForEntity(MatrixStack matrices, Entity entity, boolean first) {
+		if (!DevelopmentUtils.applyEntityOffsets) return Vec3d.ZERO;
+
+		if (entity instanceof SideBannerable bannerable) {
+
+			Vec3d offset = new Vec3d(bannerable.getXOffset(), bannerable.getYOffset(), bannerable.getZOffset());
+
+			if (first) {
+				matrices.translate(-offset.getZ(), -offset.getY(), offset.getX());
+			} else {
+				matrices.translate(offset.getZ(), -offset.getY(), offset.getX());
+			}
+
+			return offset;
+		}
+
+		return Vec3d.ZERO;
 	}
 
 	private static void scaleMatricesForEntity(MatrixStack matrices, Entity entity) {
@@ -119,30 +136,19 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 
 	}
 
-	private static void modifyMatricesForEntity(MatrixStack matrices, Entity entity, boolean beforeRotation) {
-		if (!DevelopmentUtils.applyEntityOffsets) return;
-
-		if (entity instanceof SideBannerable bannerable) {
-
-			Vec3d offset = new Vec3d(bannerable.getXOffset(), bannerable.getYOffset(), bannerable.getZOffset());
-
-			if (beforeRotation) {
-				matrices.translate(0, -offset.getY(), offset.getZ());
-			} else {
-				// OLD {z} AXIS IS NOW {x} AXIS AND THE OLD {x} IS NOW THE {z}
-				matrices.translate(0, 0, offset.getX());
-			}
-
-		}
-
-	}
-
 	private static void renderBanner(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Entity entity, float tickDelta, ItemStack itemStack) {
-		List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
 		RendererUtils.modifyMatricesBannerSwing(bannerPart, entity, tickDelta, false, aFloat -> -aFloat);
 
+		// Safety try catch to avoid crashes!
+		try {
+			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
 
-		RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bannerPart, ModelLoader.BANNER_BASE, true, bannerPatterns);
+			RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, bannerPart, ModelLoader.BANNER_BASE, true, bannerPatterns);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+
 	}
 
 }
