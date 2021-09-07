@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.pig;
 
-import de.kxmischesdomi.morebannerfeatures.client.feature.PigBannerFeatureRenderer;
+import de.kxmischesdomi.morebannerfeatures.renderer.PigBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.PigEntityRenderer;
