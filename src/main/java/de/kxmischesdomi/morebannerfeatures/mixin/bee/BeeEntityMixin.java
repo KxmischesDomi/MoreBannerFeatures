@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.bee;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;

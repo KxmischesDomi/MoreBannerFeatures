@@ -1,7 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.SideBannerable;
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.InventoryBannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.InventoryBannerable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;

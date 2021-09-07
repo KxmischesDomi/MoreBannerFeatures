@@ -1,7 +1,7 @@
-package de.kxmischesdomi.morebannerfeatures.client.feature;
+package de.kxmischesdomi.morebannerfeatures.renderer;
 
 import com.mojang.datafixers.util.Pair;
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -76,9 +76,9 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 				q += MathHelper.sin(MathHelper.lerp(tickDelta, player.prevHorizontalSpeed, player.horizontalSpeed) * 6.0F) * 32.0F * t;
 				if (player.isInSneakingPose()) {
 					q += 25.0F;
-					RendererUtils.modifyMatricesDevelopment(matrices);
 					matrices.translate(0, 0.14, -0.02);
 				}
+				RendererUtils.modifyMatricesDevelopment(matrices);
 
 				matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(6.0F + r / 2.0F + q));
 				matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
@@ -91,7 +91,6 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}
-
 
 				matrices.pop();
 			}

@@ -1,7 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.BannerSlot;
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.InventoryBannerable;
+import de.kxmischesdomi.morebannerfeatures.core.BannerSlot;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.InventoryBannerable;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

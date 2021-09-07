@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.llama;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.SideBannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.passive.LlamaEntity;

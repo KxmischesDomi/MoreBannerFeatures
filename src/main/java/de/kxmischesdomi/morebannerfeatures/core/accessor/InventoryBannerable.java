@@ -1,4 +1,4 @@
-package de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures;
+package de.kxmischesdomi.morebannerfeatures.core.accessor;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi

@@ -1,7 +1,7 @@
-package de.kxmischesdomi.morebannerfeatures.client.feature;
+package de.kxmischesdomi.morebannerfeatures.renderer;
 
 import com.mojang.datafixers.util.Pair;
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;

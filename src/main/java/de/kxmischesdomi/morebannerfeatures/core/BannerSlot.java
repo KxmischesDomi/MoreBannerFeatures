@@ -1,5 +1,6 @@
-package de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures;
+package de.kxmischesdomi.morebannerfeatures.core;
 
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BannerItem;

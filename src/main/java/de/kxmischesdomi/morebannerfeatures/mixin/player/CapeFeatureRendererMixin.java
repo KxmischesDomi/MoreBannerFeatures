@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.player;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.CapeFeatureRenderer;

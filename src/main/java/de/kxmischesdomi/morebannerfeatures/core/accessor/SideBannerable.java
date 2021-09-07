@@ -1,4 +1,4 @@
-package de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures;
+package de.kxmischesdomi.morebannerfeatures.core.accessor;
 
 import net.minecraft.util.math.Vec3d;
 

@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.bee;
 
-import de.kxmischesdomi.morebannerfeatures.client.feature.BeeBannerFeatureRenderer;
+import de.kxmischesdomi.morebannerfeatures.renderer.BeeBannerFeatureRenderer;
 import net.minecraft.client.render.entity.BeeEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;

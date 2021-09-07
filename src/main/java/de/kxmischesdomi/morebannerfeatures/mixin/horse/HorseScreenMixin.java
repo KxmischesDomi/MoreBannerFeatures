@@ -2,7 +2,7 @@ package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HorseScreen;
 import net.minecraft.client.util.math.MatrixStack;
