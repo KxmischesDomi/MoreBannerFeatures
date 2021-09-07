@@ -1,11 +1,10 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.strider;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.StriderEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -116,7 +115,7 @@ public abstract class StriderEntityMixin extends AnimalEntity implements Bannera
 	}
 
 	static {
-		BANNER = DataTracker.registerData(EndermanEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
+		BANNER = DataTracker.registerData(StriderEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
 	}
 
 }

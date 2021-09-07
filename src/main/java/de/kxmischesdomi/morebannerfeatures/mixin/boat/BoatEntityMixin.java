@@ -1,13 +1,12 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.boat;
 
-import de.kxmischesdomi.morebannerfeatures.common.morebannerfeatures.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.BannerItem;
@@ -126,7 +125,7 @@ public abstract class BoatEntityMixin extends Entity implements Bannerable {
 	}
 
 	static {
-		BANNER = DataTracker.registerData(EndermanEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
+		BANNER = DataTracker.registerData(BoatEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
 	}
 
 }
