@@ -1,5 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.bee;
 
+import de.kxmischesdomi.morebannerfeatures.renderer.BeeBannerFeatureRenderer;
 import net.minecraft.client.render.entity.BeeEntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;
@@ -23,7 +24,7 @@ public abstract class BeeEntityRendererMixin extends MobEntityRenderer<BeeEntity
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void init(Context context, CallbackInfo ci) {
-		this.addFeature(new de.kxmischesdomi.morebannerfeatures.client.feature.BeeBannerFeatureRenderer(this));
+		this.addFeature(new BeeBannerFeatureRenderer(this));
 	}
 
 }
