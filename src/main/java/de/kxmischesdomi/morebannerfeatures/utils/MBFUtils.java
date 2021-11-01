@@ -25,7 +25,7 @@ public class MBFUtils {
 					return trinketInventory.getStack(0);
 				}
 			} catch (Exception exception) {
-				exception.printStackTrace();
+				// TRINKETS IS PROBABLY NOT INSTALLED ON SERVER
 			}
 
 		}
