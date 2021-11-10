@@ -18,7 +18,6 @@
     "llama.LLamaEntityRendererMixin",
     "pig.PigEntityMixin",
     "pig.PigEntityRendererMixin",
-    "piglin.PiglinBruteEntityMixin",
     "player.CapeFeatureRendererMixin",
     "player.LivingEntityMixin",
     "player.PlayerEntityMixin",
