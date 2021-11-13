@@ -25,6 +25,11 @@ public abstract class DonkeyEntityMixin extends AbstractDonkeyEntity implements 
 	}
 
 	@Override
+	public int getTransferIndex() {
+		return hasChest() ? 53 : 38;
+	}
+
+	@Override
 	public float getZOffset() {
 		return hasChest() ? -0.7F : 0;
 	}

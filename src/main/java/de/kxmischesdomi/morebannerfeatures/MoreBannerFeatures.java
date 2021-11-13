@@ -3,7 +3,6 @@ package de.kxmischesdomi.morebannerfeatures;
 import de.kxmischesdomi.morebannerfeatures.utils.DevelopmentUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.FabricLoader;
-import net.minecraft.util.Identifier;
 
 public class MoreBannerFeatures implements ModInitializer {
 

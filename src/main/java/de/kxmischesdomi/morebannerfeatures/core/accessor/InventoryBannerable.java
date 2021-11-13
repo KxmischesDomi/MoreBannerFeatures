@@ -12,4 +12,6 @@ public interface InventoryBannerable extends Bannerable {
 	 */
 	default int getSlot() { return 2; }
 
+	default int getTransferIndex() { return 38; }
+
 }

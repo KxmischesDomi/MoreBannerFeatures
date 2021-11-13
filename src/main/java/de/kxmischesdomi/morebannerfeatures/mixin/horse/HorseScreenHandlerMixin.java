@@ -10,13 +10,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.HorseScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.slot.Slot;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -25,7 +30,8 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(HorseScreenHandler.class)
 public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 
-	@Shadow public abstract ItemStack transferSlot(PlayerEntity player, int index);
+	@Shadow @Final private Inventory inventory;
+	private InventoryBannerable bannerable;
 
 	protected HorseScreenHandlerMixin(@Nullable ScreenHandlerType<?> type, int syncId) {
 		super(type, syncId);
@@ -35,6 +41,7 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 	private void init(int syncId, PlayerInventory playerInventory, Inventory inventory, HorseBaseEntity entity, CallbackInfo ci) {
 
 		if (entity instanceof InventoryBannerable bannerable) {
+			this.bannerable = bannerable;
 
 			int x = 8;
 			int y = 54;
@@ -46,23 +53,30 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 
 	}
 
-//	@Inject(method = "transferSlot", at = @At(value = "HEAD"), cancellable = true)
-//	private void transferSlot(PlayerEntity player, int index, CallbackInfoReturnable<ItemStack> cir) {
-//		Slot slot = this.slots.get(index);
-//
-//		if (slot != null && slot.hasStack()) {
-//			ItemStack itemStack2 = slot.getStack();
-//			ItemStack itemStack = itemStack2.copy();
-//			int i = this.inventory.size();
-//			if (index >= i) {
-//				if (this.getSlot(38).canInsert(itemStack2)) {
-//					if (!this.insertItem(itemStack2, 38, 39, false)) {
-//						cir.setReturnValue(ItemStack.EMPTY);
-//					}
-//					cir.setReturnValue(itemStack);
-//				}
-//			}
-//
-//		}
-//	}
+	@ModifyArgs(method = "transferSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/HorseScreenHandler;insertItem(Lnet/minecraft/item/ItemStack;IIZ)Z"))
+	public void transferSlot(Args args) {
+		int endIndex = args.get(2);
+		boolean fromLast = args.get(3);
+		if (endIndex == this.slots.size() && fromLast) {
+			args.set(2, endIndex - 1);
+		}
+	}
+
+	@Inject(method = "transferSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/Inventory;size()I", shift = At.Shift.AFTER), cancellable = true)
+	public void transferSlotToBanner(PlayerEntity player, int index, CallbackInfoReturnable<ItemStack> cir) {
+		Slot slot = this.slots.get(index);
+		ItemStack itemStack2 = slot.getStack();
+
+		int transferIndex = bannerable.getTransferIndex();
+		if (this.getSlot(transferIndex).canInsert(itemStack2) && !this.getSlot(transferIndex).hasStack()) {
+			ItemStack newStack = itemStack2.split(1);
+
+			if (!this.insertItem(newStack, transferIndex, transferIndex + 1, false)) {
+				cir.setReturnValue(ItemStack.EMPTY);
+			} else {
+				cir.setReturnValue(itemStack2);
+			}
+		}
+	}
+
 }
