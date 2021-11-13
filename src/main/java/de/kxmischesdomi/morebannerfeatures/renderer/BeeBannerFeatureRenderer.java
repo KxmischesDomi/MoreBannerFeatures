@@ -62,7 +62,7 @@ public class BeeBannerFeatureRenderer extends FeatureRenderer<BeeEntity, BeeEnti
 			float bonePivotY = getBonePivotY();
 			bonePivotY -= 19;
 			bonePivotY /= 9;
-			matrices.translate(0, bonePivotY + 2.13, -0.17);
+			matrices.translate(0, bonePivotY + 4.13, -0.17);
 			RendererUtils.modifyMatricesDevelopment(matrices);
 
 			VertexConsumer vertexConsumer = ModelLoader.BANNER_BASE.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline);
