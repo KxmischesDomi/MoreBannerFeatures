@@ -48,18 +48,17 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 			int slot = bannerable.getSlot();
 
 			this.addSlot(new BannerSlot(entity, inventory, slot, x, y));
-
 		}
 
 	}
 
 	@ModifyArgs(method = "transferSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/HorseScreenHandler;insertItem(Lnet/minecraft/item/ItemStack;IIZ)Z"))
 	public void transferSlot(Args args) {
-		int endIndex = args.get(2);
-		boolean fromLast = args.get(3);
-		if (endIndex == this.slots.size() && fromLast) {
-			args.set(2, endIndex - 1);
+		int endIndex = args.get(3);
+		if (endIndex == this.slots.size()) {
+			args.set(3, endIndex - 1);
 		}
+
 	}
 
 	@Inject(method = "transferSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/inventory/Inventory;size()I", shift = At.Shift.AFTER), cancellable = true)
@@ -74,7 +73,15 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 			if (!this.insertItem(newStack, transferIndex, transferIndex + 1, false)) {
 				cir.setReturnValue(ItemStack.EMPTY);
 			} else {
-				cir.setReturnValue(itemStack2);
+				cir.setReturnValue(ItemStack.EMPTY);
+			}
+		} else if (index == transferIndex) {
+			if (!this.insertItem(itemStack2, inventory.size(), this.slots.size() - 1, true)) {
+
+				cir.setReturnValue(ItemStack.EMPTY);
+			} else {
+				Slot bannerSlot = this.slots.get(transferIndex);
+				bannerSlot.setStack(ItemStack.EMPTY);
 			}
 		}
 	}
