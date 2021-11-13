@@ -13,6 +13,7 @@ import net.minecraft.client.model.ModelPartBuilder;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
@@ -87,7 +88,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 				// Safety try catch to avoid crashes!
 				try {
 					List<Pair<BannerPattern, DyeColor>> patterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) bannerItem.getItem()).getColor(), BannerBlockEntity.getPatternListTag(bannerItem));
-					RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak, ModelLoader.BANNER_BASE, true, patterns);
+					BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak, ModelLoader.BANNER_BASE, true, patterns);
 				} catch (Exception exception) {
 					exception.printStackTrace();
 				}

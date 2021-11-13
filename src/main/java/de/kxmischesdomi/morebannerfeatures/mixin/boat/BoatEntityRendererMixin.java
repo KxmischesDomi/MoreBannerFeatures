@@ -2,7 +2,6 @@ package de.kxmischesdomi.morebannerfeatures.mixin.boat;
 
 import com.mojang.datafixers.util.Pair;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
-import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
@@ -11,6 +10,7 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.BoatEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -90,7 +90,7 @@ public abstract class BoatEntityRendererMixin extends EntityRenderer<BoatEntity>
 			this.banner.pitch = (-0.0125F + 0.01F * MathHelper.cos(6.2831855F * n)) * 3.1415927F;
 			this.banner.pivotY = -32.0F;
 
-			RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
+			BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
 
 			matrices.pop();
 		}

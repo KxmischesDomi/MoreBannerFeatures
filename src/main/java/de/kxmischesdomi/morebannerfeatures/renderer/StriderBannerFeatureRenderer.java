@@ -11,6 +11,7 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
@@ -69,7 +70,7 @@ public class StriderBannerFeatureRenderer extends FeatureRenderer<StriderEntity,
 			// Safety try catch to avoid crashes!
 			try {
 				List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
-				RendererUtils.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
+				BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
 
 			} catch (Exception exception) {
 				exception.printStackTrace();
