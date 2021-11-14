@@ -108,6 +108,7 @@ public class BeeBannerFeatureRenderer extends FeatureRenderer<BeeEntity, BeeEnti
 			return part.pivotY;
 
 		} catch (Exception ex) {
+			ErrorSystemManager.reportException();
 			ex.printStackTrace();
 			return 0;
 		}

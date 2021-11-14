@@ -1,3 +1,5 @@
 {
   "block.minecraft.fortune_banner": "§e§oFortune Banner"
+	"mbf.message.error": "§c§lMoreBannerFeatures: §cAn error occured while rendering. Please report this with a provided game log on discord by clicking on this message. This message can be deactivated in the mod's settings",
+
 }

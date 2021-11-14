@@ -73,6 +73,7 @@ public class StriderBannerFeatureRenderer extends FeatureRenderer<StriderEntity,
 				BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
 
 			} catch (Exception exception) {
+				ErrorSystemManager.reportException();
 				exception.printStackTrace();
 			}
 

@@ -90,6 +90,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 					List<Pair<BannerPattern, DyeColor>> patterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) bannerItem.getItem()).getColor(), BannerBlockEntity.getPatternListTag(bannerItem));
 					BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak, ModelLoader.BANNER_BASE, true, patterns);
 				} catch (Exception exception) {
+					ErrorSystemManager.reportException();
 					exception.printStackTrace();
 				}
 
