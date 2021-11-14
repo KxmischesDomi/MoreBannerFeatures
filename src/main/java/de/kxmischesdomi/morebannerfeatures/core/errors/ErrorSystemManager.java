@@ -3,6 +3,8 @@ package de.kxmischesdomi.morebannerfeatures.core.errors;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.Style;
 import net.minecraft.text.TranslatableText;
 
 /**
@@ -18,7 +20,10 @@ public class ErrorSystemManager {
 			lastTimeReported = System.currentTimeMillis();
 			ClientPlayerEntity player = MinecraftClient.getInstance().player;
 			if (player != null) {
-				player.sendMessage(new TranslatableText("mbf.message.error"), false);
+				TranslatableText text = new TranslatableText("mbf.message.error");
+				Style style = text.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/7BSqZa9r3P"));
+				text.setStyle(style);
+				player.sendMessage(text, false);
 			}
 		}
 	}
