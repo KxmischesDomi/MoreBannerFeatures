@@ -8,6 +8,7 @@
 		"banner.WallStandingBlockItemMixin",
 		"boat.BoatEntityMixin",
 		"donkey.DonkeyEntityMixin",
+		"fox.FoxHeldItemFeatureRendererMixin",
 		"horse.HorseBaseEntityMixin",
 		"horse.HorseScreenHandlerMixin",
 		"llama.LLamaEntityMixin",
@@ -27,7 +28,6 @@
 		"player.CapeFeatureRendererMixin",
 		"player.PlayerRendererMixin",
 		"strider.StriderEntityRendererMixin"
-
 	],
 	"injectors": {
 		"defaultRequire": 1

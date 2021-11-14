@@ -28,7 +28,7 @@ public abstract class BannerBlockEntityRendererMixin implements BlockEntityRende
 
 	@Inject(method = "render", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/block/entity/BannerBlockEntityRenderer;pillar:Lnet/minecraft/client/model/ModelPart;"))
 	private void render(BannerBlockEntity bannerBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j, CallbackInfo ci) {
-		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
 

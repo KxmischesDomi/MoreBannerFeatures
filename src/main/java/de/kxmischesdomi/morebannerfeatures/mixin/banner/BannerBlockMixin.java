@@ -39,7 +39,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "getPlacementState", at = @At(value = "TAIL"), cancellable = true)
 	private void getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
-		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
 		BlockState state = cir.getReturnValue();
@@ -67,7 +67,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "getOutlineShape", at = @At(value = "TAIL"), cancellable = true)
 	private void getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
-		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
 		if (state.get(HANGING)) {
@@ -77,7 +77,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "canPlaceAt", at = @At(value = "TAIL"), cancellable = true)
 	private void canPlaceAt(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
 		if (state.get(HANGING) || !cir.getReturnValue()) {
@@ -87,7 +87,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "getStateForNeighborUpdate", at = @At(value = "HEAD"), cancellable = true)
 	private void getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
-		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
 		if (state.get(HANGING)) {
