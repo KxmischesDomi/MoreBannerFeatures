@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.0
+ * @since 1.0.4
  */
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements Bannerable {

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.4
+ * @since 1.0.4
  */
 @Mixin(PlayerEntityRenderer.class)
 public abstract class PlayerRendererMixin extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {

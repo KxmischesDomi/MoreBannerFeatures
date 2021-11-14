@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.2
+ * @since 1.0.2
  */
 @Mixin(BannerBlock.class)
 public abstract class BannerBlockMixin extends AbstractBannerBlock {

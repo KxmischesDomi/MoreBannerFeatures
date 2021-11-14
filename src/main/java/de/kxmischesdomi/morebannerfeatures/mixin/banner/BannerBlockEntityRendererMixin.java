@@ -25,7 +25,7 @@ import java.util.function.Function;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.2
+ * @since 1.0.2
  */
 @Mixin(value = BannerBlockEntityRenderer.class, priority = 10000)
 public abstract class BannerBlockEntityRendererMixin implements BlockEntityRenderer<BannerBlockEntity>  {

@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.0
+ * @since 1.0.1
  */
 @Mixin(WallStandingBlockItem.class)
 public abstract class WallStandingBlockItemMixin extends BlockItem {

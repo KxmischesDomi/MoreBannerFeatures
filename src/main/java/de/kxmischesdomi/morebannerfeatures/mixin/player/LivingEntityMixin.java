@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.4
+ * @since 1.0.4
  */
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
