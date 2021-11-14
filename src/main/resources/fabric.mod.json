@@ -1,39 +1,40 @@
 {
-  "schemaVersion": 1,
-  "id": "morebannerfeatures",
-  "version": "${version}",
+	"schemaVersion": 1,
+	"id": "morebannerfeatures",
+	"version": "${version}",
 
-  "name": "More Banner Features",
-  "description": "Adds plenty of new cool Banner Features",
-  "authors": [
-    "KxmischesDomi"
-  ],
-  "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/more-banner-features",
-    "sources": "https://github.com/KxmischesDomi/MoreBannerFeatures",
-    "issues": "https://github.com/KxmischesDomi/MoreBannerFeatures/issues"
-  },
+	"name": "More Banner Features",
+	"description": "Adds plenty of new cool Banner Features",
+	"authors": [
+		"KxmischesDomi"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/more-banner-features",
+		"sources": "https://github.com/KxmischesDomi/MoreBannerFeatures",
+		"issues": "https://github.com/KxmischesDomi/MoreBannerFeatures/issues"
+	},
 
-  "license": "ARR",
-  "icon": "assets/morebannerfeatures/icon.png",
+	"license": "ARR",
+	"icon": "assets/morebannerfeatures/icon.png",
 
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures"
-    ]
-  },
-  "mixins": [
-    "morebannerfeatures.mixins.json"
-  ],
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures"
+		]
+	},
+	"mixins": [
+		"morebannerfeatures.mixins.json"
+	],
 
-  "depends": {
-    "fabricloader": ">=0.11.3",
-    "fabric": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
-  },
-  "suggests": {
-    "trinkets": "*"
-  }
+	"depends": {
+		"fabricloader": ">=0.11.3",
+		"fabric": "*",
+		"minecraft": "1.17.x",
+		"java": ">=16"
+	},
+	"suggests": {
+		"trinkets": "*"
+	},
+
 }

@@ -1,34 +1,35 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "de.kxmischesdomi.morebannerfeatures.mixin",
-  "compatibilityLevel": "JAVA_16",
-  "mixins": [
-    "banner.BannerBlockEntityRendererMixin",
-    "banner.BannerBlockMixin",
-    "banner.WallStandingBlockItemMixin",
-    "boat.BoatEntityMixin",
-    "boat.BoatEntityRendererMixin",
-    "donkey.DonkeyEntityMixin",
-    "horse.HorseBaseEntityMixin",
-    "horse.HorseBaseEntityRendererMixin",
-    "horse.HorseScreenHandlerMixin",
-    "horse.HorseScreenMixin",
-    "llama.LLamaEntityMixin",
-    "llama.LLamaEntityRendererMixin",
-    "pig.PigEntityMixin",
-    "pig.PigEntityRendererMixin",
-    "player.CapeFeatureRendererMixin",
-    "player.LivingEntityMixin",
-    "player.PlayerEntityMixin",
-    "player.PlayerRendererMixin",
-    "strider.StriderEntityMixin",
-    "strider.StriderEntityRendererMixin",
-    "trader.TraderLLamaEntityMixin"
-  ],
-  "client": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+	"required": true,
+	"minVersion": "0.8",
+	"package": "de.kxmischesdomi.morebannerfeatures.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"mixins": [
+		"banner.BannerBlockMixin",
+		"banner.WallStandingBlockItemMixin",
+		"boat.BoatEntityMixin",
+		"donkey.DonkeyEntityMixin",
+		"horse.HorseBaseEntityMixin",
+		"horse.HorseScreenHandlerMixin",
+		"llama.LLamaEntityMixin",
+		"pig.PigEntityMixin",
+		"player.LivingEntityMixin",
+		"player.PlayerEntityMixin",
+		"strider.StriderEntityMixin",
+		"trader.TraderLLamaEntityMixin"
+	],
+	"client": [
+		"banner.BannerBlockEntityRendererMixin",
+		"boat.BoatEntityRendererMixin",
+		"horse.HorseBaseEntityRendererMixin",
+		"horse.HorseScreenMixin",
+		"llama.LLamaEntityRendererMixin",
+		"pig.PigEntityRendererMixin",
+		"player.CapeFeatureRendererMixin",
+		"player.PlayerRendererMixin",
+		"strider.StriderEntityRendererMixin"
+
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
 }
