@@ -16,7 +16,8 @@
 		"player.LivingEntityMixin",
 		"player.PlayerEntityMixin",
 		"strider.StriderEntityMixin",
-		"trader.TraderLLamaEntityMixin"
+		"trader.TraderLLamaEntityMixin",
+		"villager.VillagerEntityMixin"
 	],
 	"client": [
 		"banner.BannerBlockEntityRendererMixin",
