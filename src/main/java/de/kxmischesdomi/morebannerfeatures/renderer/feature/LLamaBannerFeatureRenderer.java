@@ -1,4 +1,4 @@
-package de.kxmischesdomi.morebannerfeatures.renderer;
+package de.kxmischesdomi.morebannerfeatures.renderer.feature;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

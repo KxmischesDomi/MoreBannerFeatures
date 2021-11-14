@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.llama;
 
-import de.kxmischesdomi.morebannerfeatures.renderer.LLamaBannerFeatureRenderer;
+import de.kxmischesdomi.morebannerfeatures.renderer.feature.LLamaBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.LlamaEntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;

@@ -21,6 +21,9 @@
 	"entrypoints": {
 		"main": [
 			"de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures"
+		],
+		"modmenu": [
+			"de.kxmischesdomi.morebannerfeatures.MoreBannerFeaturesModMenu"
 		]
 	},
 	"mixins": [
@@ -34,7 +37,15 @@
 		"java": ">=16"
 	},
 	"suggests": {
-		"trinkets": "*"
+		"trinkets": "*",
+		"modmenu": "*"
 	},
 
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/7BSqZa9r3P"
+			}
+		}
+	}
 }

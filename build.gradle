@@ -42,6 +42,8 @@ dependencies {
 
 	modImplementation "dev.emi:trinkets:3.0.2"
 
+	modImplementation "com.terraformersmc:modmenu:2.0.14"
+
 	implementation 'com.github.jitpack:gradle-simple:1.1'
 }
 

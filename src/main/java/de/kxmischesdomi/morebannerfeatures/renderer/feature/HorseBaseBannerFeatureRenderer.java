@@ -1,8 +1,10 @@
-package de.kxmischesdomi.morebannerfeatures.renderer;
+package de.kxmischesdomi.morebannerfeatures.renderer.feature;
 
 import com.mojang.datafixers.util.Pair;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
+import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
+import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
 import de.kxmischesdomi.morebannerfeatures.utils.DevelopmentUtils;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.fabricmc.api.EnvType;
@@ -154,21 +156,27 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
 
 			int overlay = LivingEntityRenderer.getOverlay((LivingEntity) entity, 0.0F);
+			boolean bar = MBFOptions.BAR.getBooleanValue();
 
 			matrices.push();
 
-			matrices.translate(0, -0.01, 0.115);
+			if (bar) {
+				matrices.translate(0, -0.01, 0.115);
+			}
 
 			BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, flagPart, ModelLoader.BANNER_BASE, true, bannerPatterns);
 
 			matrices.pop();
 
-			matrices.translate(0, 1.99, -0.07);
+			if (bar) {
+				matrices.translate(0, 1.99, -0.07);
 
-			VertexConsumer vertexConsumer = ModelLoader.BANNER_BASE.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
-			crossbarPart.render(matrices, vertexConsumer, light, overlay);
+				VertexConsumer vertexConsumer = ModelLoader.BANNER_BASE.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
+				crossbarPart.render(matrices, vertexConsumer, light, overlay);
+			}
 
 		} catch (Exception exception) {
+			ErrorSystemManager.reportException();
 			exception.printStackTrace();
 		}
 

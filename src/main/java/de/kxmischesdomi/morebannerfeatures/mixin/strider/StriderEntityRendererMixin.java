@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.strider;
 
-import de.kxmischesdomi.morebannerfeatures.renderer.StriderBannerFeatureRenderer;
+import de.kxmischesdomi.morebannerfeatures.renderer.feature.StriderBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.StriderEntityRenderer;

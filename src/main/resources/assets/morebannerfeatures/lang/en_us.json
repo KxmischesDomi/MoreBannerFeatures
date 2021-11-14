@@ -1,5 +1,12 @@
 {
-  "block.minecraft.fortune_banner": "§e§oFortune Banner"
+	"mbf.options": "More Banner Features Options",
+	"mbf.options.bar": "Wooden Bar",
+	"mbf.options.errors": "Error System",
+
+	"mbf.tooltip.bar": "Wooden Bars are displayed between the animals and the banners they wear on their side",
+	"mbf.tooltip.errors": "When MoreBannerFeatures catches an error while rendering it'll be displayed in chat",
+
 	"mbf.message.error": "§c§lMoreBannerFeatures: §cAn error occured while rendering. Please report this with a provided game log on discord by clicking on this message. This message can be deactivated in the mod's settings",
 
+	"block.minecraft.fortune_banner": "§e§oFortune Banner"
 }
