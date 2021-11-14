@@ -1,4 +1,4 @@
-package de.kxmischesdomi.morebannerfeatures.renderer.feature;
+package de.kxmischesdomi.morebannerfeatures.renderer;
 
 import com.mojang.datafixers.util.Pair;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;

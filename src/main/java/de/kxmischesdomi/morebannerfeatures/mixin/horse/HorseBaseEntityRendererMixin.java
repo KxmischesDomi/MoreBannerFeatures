@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
-import de.kxmischesdomi.morebannerfeatures.renderer.feature.HorseBaseBannerFeatureRenderer;
+import de.kxmischesdomi.morebannerfeatures.renderer.HorseBaseBannerFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
 import net.minecraft.client.render.entity.HorseBaseEntityRenderer;
 import net.minecraft.client.render.entity.MobEntityRenderer;

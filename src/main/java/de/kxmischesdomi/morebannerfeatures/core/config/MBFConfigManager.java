@@ -10,7 +10,7 @@ import net.minecraft.client.option.Option;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -46,6 +46,7 @@ public class MBFConfigManager {
 
 			}
 		} catch (Exception exception) {
+			System.err.println("Couldn't load configuration file");
 			exception.printStackTrace();
 		}
 
@@ -69,7 +70,7 @@ public class MBFConfigManager {
 		try (FileWriter fileWriter = new FileWriter(configFile)) {
 			fileWriter.write(jsonString);
 		} catch (IOException e) {
-			System.err.println("Couldn't save Mod Menu configuration file");
+			System.err.println("Couldn't save configuration file");
 			e.printStackTrace();
 		}
 
@@ -81,7 +82,7 @@ public class MBFConfigManager {
 			return cachedOptions;
 		}
 
-		List<IOption> options = new ArrayList<>();
+		List<IOption> options = new LinkedList<>();
 		for (Field field : MBFOptions.class.getDeclaredFields()) {
 			try {
 				if (Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())) {
