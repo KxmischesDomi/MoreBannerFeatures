@@ -7,7 +7,7 @@ import net.minecraft.text.TranslatableText;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.0
+ * @since 1.1.0
  */
 public class ErrorSystemManager {
 

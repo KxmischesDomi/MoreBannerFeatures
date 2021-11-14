@@ -31,7 +31,7 @@ public class MBFOptionsScreen extends GameOptionsScreen {
 
 	protected void init() {
 		this.buttonList = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
-		this.buttonList.addAll(MBFConfigManager.getAllAsOptions());
+		this.buttonList.addAll(MBFConfigManager.getAllToDisplay());
 		this.addSelectableChild(this.buttonList);
 		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, ScreenTexts.DONE, (button) -> {
 			MBFConfigManager.save();

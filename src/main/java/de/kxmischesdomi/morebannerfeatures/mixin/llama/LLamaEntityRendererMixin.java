@@ -24,7 +24,7 @@ public abstract class LLamaEntityRendererMixin extends MobEntityRenderer<LlamaEn
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void render(Context ctx, EntityModelLayer layer, CallbackInfo ci) {
+	private void init(Context ctx, EntityModelLayer layer, CallbackInfo ci) {
 		addFeature(new LLamaBannerFeatureRenderer(this));
 	}
 

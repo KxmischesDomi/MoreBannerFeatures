@@ -1,5 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.banner;
 
+import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager.Builder;
@@ -38,6 +39,9 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "getPlacementState", at = @At(value = "TAIL"), cancellable = true)
 	private void getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+			return;
+		}
 		BlockState state = cir.getReturnValue();
 		if (state == null) return;
 
@@ -63,6 +67,9 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "getOutlineShape", at = @At(value = "TAIL"), cancellable = true)
 	private void getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+			return;
+		}
 		if (state.get(HANGING)) {
 			cir.setReturnValue(Block.createCuboidShape(1.3D, 14.0D, 1.3D, 14.7D, 16.0D, 14.7D));
 		}
@@ -70,6 +77,9 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "canPlaceAt", at = @At(value = "TAIL"), cancellable = true)
 	private void canPlaceAt(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+			return;
+		}
 		if (state.get(HANGING) || !cir.getReturnValue()) {
 			cir.setReturnValue(world.getBlockState(pos.up()).getMaterial().isSolid());
 		}
@@ -77,6 +87,9 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	@Inject(method = "getStateForNeighborUpdate", at = @At(value = "HEAD"), cancellable = true)
 	private void getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
+		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+			return;
+		}
 		if (state.get(HANGING)) {
 			cir.setReturnValue(direction == Direction.UP && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos));
 		}

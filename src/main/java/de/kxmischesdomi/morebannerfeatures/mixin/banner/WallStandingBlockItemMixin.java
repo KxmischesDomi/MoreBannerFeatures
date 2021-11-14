@@ -1,5 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.banner;
 
+import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -33,6 +34,11 @@ public abstract class WallStandingBlockItemMixin extends BlockItem {
 
 	@Inject(method = "getPlacementState", locals = LocalCapture.CAPTURE_FAILSOFT, at = @At(value = "FIELD", target = "Lnet/minecraft/util/math/Direction;UP:Lnet/minecraft/util/math/Direction;"), cancellable = true)
 	private void getPlacementState(ItemPlacementContext context, CallbackInfoReturnable<BlockState> cir, BlockState blockState, WorldView worldView, BlockPos blockPos, Direction[] directions, int i, int i1) {
+
+		if (!MBFOptions.HANING_BANNERS.getBooleanValue()) {
+			return;
+		}
+
 		Direction direction = directions[i1];
 		if (direction != Direction.UP) return;
 

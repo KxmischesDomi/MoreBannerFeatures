@@ -97,8 +97,8 @@ public class MBFConfigManager {
 		return options;
 	}
 
-	public static Option[] getAllAsOptions() {
-		return getAllOptions().stream().map(IOption::toOption).toArray(Option[]::new);
+	public static Option[] getAllToDisplay() {
+		return getAllOptions().stream().filter(IOption::shouldDisplay).map(IOption::toOption).toArray(Option[]::new);
 	}
 
 }

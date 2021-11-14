@@ -1,6 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.pig;
 
 import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
+import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -64,6 +65,9 @@ public abstract class PigEntityMixin extends AnimalEntity implements SideBannera
 
 	@Override
 	public ItemStack getBannerItem() {
+		if (!MBFOptions.PIG_BANNERS.getBooleanValue()) {
+			return ItemStack.EMPTY;
+		}
 		return this.dataTracker.get(BANNER);
 	}
 
@@ -97,6 +101,11 @@ public abstract class PigEntityMixin extends AnimalEntity implements SideBannera
 
 	@Inject(method = "interactMob", at = @At(value = "HEAD"), cancellable = true)
 	private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+
+		if (!MBFOptions.PIG_BANNERS.getBooleanValue()) {
+			return;
+		}
+
 		if (player.shouldCancelInteraction()) return;
 		if (isBaby()) return;
 

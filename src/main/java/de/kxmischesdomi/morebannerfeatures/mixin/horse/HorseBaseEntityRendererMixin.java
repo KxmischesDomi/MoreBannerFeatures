@@ -23,7 +23,7 @@ public abstract class HorseBaseEntityRendererMixin<M extends HorseEntityModel<Ho
 	}
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void render(Context ctx, M model, float scale, CallbackInfo ci) {
+	private void init(Context ctx, M model, float scale, CallbackInfo ci) {
 		addFeature(new HorseBaseBannerFeatureRenderer(this));
 	}
 

@@ -1,6 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.boat;
 
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
@@ -47,6 +48,9 @@ public abstract class BoatEntityMixin extends Entity implements Bannerable {
 
 	@Override
 	public ItemStack getBannerItem() {
+		if (!MBFOptions.BOAT_BANNERS.getBooleanValue()) {
+			return ItemStack.EMPTY;
+		}
 		return this.dataTracker.get(BANNER);
 	}
 
@@ -84,6 +88,11 @@ public abstract class BoatEntityMixin extends Entity implements Bannerable {
 
 	@Inject(method = "interact", at = @At(value = "HEAD"), cancellable = true)
 	private void interact(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+
+		if (!MBFOptions.BOAT_BANNERS.getBooleanValue()) {
+			return;
+		}
+
 		if (player.shouldCancelInteraction()) {
 			cir.setReturnValue(ActionResult.PASS);
 			return;
