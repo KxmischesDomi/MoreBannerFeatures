@@ -54,9 +54,9 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
 
 	@ModifyArgs(method = "transferSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/screen/HorseScreenHandler;insertItem(Lnet/minecraft/item/ItemStack;IIZ)Z"))
 	public void transferSlot(Args args) {
-		int endIndex = args.get(3);
+		int endIndex = args.get(2);
 		if (endIndex == this.slots.size()) {
-			args.set(3, endIndex - 1);
+			args.set(2, endIndex - 1);
 		}
 
 	}
