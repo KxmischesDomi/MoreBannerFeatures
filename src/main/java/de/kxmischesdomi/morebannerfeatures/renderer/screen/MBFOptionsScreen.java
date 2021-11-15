@@ -57,7 +57,7 @@ public class MBFOptionsScreen extends GameOptionsScreen {
 	}
 
 	public static Option[] getAllToDisplay() {
-		return MBFConfigManager.getAllOptions().stream().filter(IOption::shouldDisplay).map(IOption::toOption).map(optionHolder -> ((Option) optionHolder.getOption())).toArray(Option[]::new);
+		return MBFConfigManager.getAllOptions().stream().filter(IOption::shouldDisplay).map(iOption -> ((Option) iOption.toOption())).toArray(Option[]::new);
 	}
 
 }
