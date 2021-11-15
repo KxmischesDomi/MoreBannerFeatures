@@ -69,6 +69,8 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Bann
 		if (itemStack.getItem() instanceof BannerItem) {
 			if (bannerItem.isItemEqualIgnoreDamage(itemStack)) return;
 
+			this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_HORSE_STEP_WOOD, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
 			if (!bannerItem.isEmpty()) {
 				dropStack(bannerItem);
 			}

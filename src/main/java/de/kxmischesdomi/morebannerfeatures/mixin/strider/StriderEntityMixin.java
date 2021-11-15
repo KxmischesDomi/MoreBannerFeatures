@@ -91,6 +91,8 @@ public abstract class StriderEntityMixin extends AnimalEntity implements Bannera
 		if (itemStack.getItem() instanceof BannerItem) {
 			if (getBannerItem().isItemEqualIgnoreDamage(itemStack)) return;
 
+			this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_HORSE_STEP_WOOD, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
 			if (!getBannerItem().isEmpty()) {
 				dropStack(getBannerItem());
 			}

@@ -1,7 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
-import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.InventoryBannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -13,6 +13,7 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -52,7 +53,7 @@ public abstract class HorseBaseEntityMixin extends AnimalEntity implements SideB
 		this.dataTracker.set(BANNER_ITEM, newStack);
 
 		if (newStack != oldStack && newStack.getItem() instanceof BannerItem) {
-			this.playSound(SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
+			this.world.playSoundFromEntity(null, this, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, SoundCategory.PLAYERS, 0.5F, 1.0F);
 		}
 
 	}
