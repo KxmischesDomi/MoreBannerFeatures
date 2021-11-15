@@ -2,12 +2,8 @@ package de.kxmischesdomi.morebannerfeatures.core.config.options;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.client.option.CyclingOption;
-import net.minecraft.client.option.Option;
-import net.minecraft.text.OrderedText;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-
-import java.util.List;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -19,18 +15,20 @@ public class BooleanOption implements IOption {
 
 	private boolean value;
 	private boolean defaultValue;
-	private boolean tooltip = true;
+	private Text tooltip;
 	private boolean display = true;
 
 	public BooleanOption(String key) {
 		this.key = key;
 		this.value = false;
+		this.tooltip = new TranslatableText("mbf.tooltip." + key);
 	}
 
 	public BooleanOption(String key, boolean defaultValue) {
 		this.key = key;
 		this.value = defaultValue;
 		this.defaultValue = defaultValue;
+		this.tooltip = new TranslatableText("mbf.tooltip." + key);
 	}
 
 	@Override
@@ -50,17 +48,12 @@ public class BooleanOption implements IOption {
 	}
 
 	@Override
-	public Option toOption() {
-		CyclingOption<Boolean> cyclingOption = CyclingOption.create("mbf.options." + key, ignored -> value, (gameOptions, option, newValue) -> {
+	public Object toOption() {
+		net.minecraft.client.option.CyclingOption<Boolean> cyclingOption = net.minecraft.client.option.CyclingOption.create("mbf.options." + key, ignored -> value, (gameOptions, option, newValue) -> {
 			this.value = newValue;
 		});
-		if (tooltip) {
-			cyclingOption.tooltip(client -> {
-				List<OrderedText> list = client.textRenderer.wrapLines(new TranslatableText("mbf.tooltip." + key), 200);
-				return (value) -> {
-					return list;
-				};
-			});
+		if (tooltip != null) {
+			cyclingOption.tooltip(client -> (value) -> client.textRenderer.wrapLines(tooltip, 200));
 		}
 		return cyclingOption;
 	}
@@ -79,7 +72,7 @@ public class BooleanOption implements IOption {
 		return this;
 	}
 
-	public BooleanOption tooltip(boolean tooltip) {
+	public BooleanOption tooltip(Text tooltip) {
 		this.tooltip = tooltip;
 		return this;
 	}

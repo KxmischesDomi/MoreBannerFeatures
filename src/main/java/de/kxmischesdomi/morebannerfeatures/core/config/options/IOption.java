@@ -1,7 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.core.config.options;
 
 import com.google.gson.JsonObject;
-import net.minecraft.client.option.Option;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -12,5 +11,9 @@ public interface IOption {
 	void write(JsonObject config);
 	void read(JsonObject config);
 	boolean shouldDisplay();
-	Option toOption();
+
+	/**
+	 * @return the option as a object to prevent the server from initializing a client class. Will result in an exception if the value is not an Option.
+	 */
+	Object toOption();
 }

@@ -15,15 +15,18 @@ public class MBFOptions {
 	public static final BooleanOption BOAT_BANNERS;
 	public static final BooleanOption STRIDER_BANNERS;
 	public static final BooleanOption HANGING_BANNERS;
+	public static final BooleanOption VILLAGER_BANNERS;
 
 	static {
 		BAR = new BooleanOption("bar", false);
 		FOX_CORRECTION = new BooleanOption("fox_correction", true);
 		ERRORS = new BooleanOption("errors", true);
+
 		PIG_BANNERS = new BooleanOption("pig_banners", true).display(false);
 		BOAT_BANNERS = new BooleanOption("boat_banners", true).display(false);
 		STRIDER_BANNERS = new BooleanOption("strider_banners", true).display(false);
 		HANGING_BANNERS = new BooleanOption("hanging_banners", true).display(false);
+		VILLAGER_BANNERS = new BooleanOption("villager_banners", true).display(false);
 	}
 
 }

@@ -1,6 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.villager;
 
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.passive.MerchantEntity;
@@ -57,9 +58,9 @@ public abstract class VillagerEntityMixin extends MerchantEntity implements Bann
 	@Inject(method = "interactMob", at = @At(value = "HEAD"), cancellable = true)
 	private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 
-//		if (!MBFOptions.PIG_BANNERS.getBooleanValue()) {
-//			return;
-//		}
+		if (!MBFOptions.VILLAGER_BANNERS.getBooleanValue()) {
+			return;
+		}
 
 		if (player.shouldCancelInteraction()) return;
 
