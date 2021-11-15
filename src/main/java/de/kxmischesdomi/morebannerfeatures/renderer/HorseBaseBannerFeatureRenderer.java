@@ -13,10 +13,10 @@ import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
@@ -164,7 +164,7 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 				matrices.translate(0, -0.01, 0.115);
 			}
 
-			BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, flagPart, ModelLoader.BANNER_BASE, true, bannerPatterns);
+			RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, flagPart);
 
 			matrices.pop();
 

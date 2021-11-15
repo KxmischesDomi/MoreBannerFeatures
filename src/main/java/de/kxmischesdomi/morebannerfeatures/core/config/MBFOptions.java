@@ -10,6 +10,7 @@ public class MBFOptions {
 
 	public static final BooleanOption BAR;
 	public static final BooleanOption FOX_CORRECTION;
+	public static final BooleanOption BANNER_GLINT;
 	public static final BooleanOption ERRORS;
 	public static final BooleanOption PIG_BANNERS;
 	public static final BooleanOption BOAT_BANNERS;
@@ -20,6 +21,7 @@ public class MBFOptions {
 	static {
 		BAR = new BooleanOption("bar", false);
 		FOX_CORRECTION = new BooleanOption("fox_correction", true);
+		BANNER_GLINT = new BooleanOption("banner_glint", false);
 		ERRORS = new BooleanOption("errors", true);
 
 		PIG_BANNERS = new BooleanOption("pig_banners", true).display(false);

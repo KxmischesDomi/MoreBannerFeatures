@@ -1,13 +1,17 @@
 package de.kxmischesdomi.morebannerfeatures.utils;
 
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
+import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.BannerItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -47,6 +51,14 @@ public class RendererUtils {
 			float yaw = (float) (Math.cos((double) entity.age * 3.25D) * 3.141592653589793D * 0.4000000059604645D);
 			matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(yaw));
 		}
+	}
+
+	public static void renderCanvasFromItem(ItemStack itemStack, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas) {
+		if (itemStack.getItem() instanceof BannerItem) {
+			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
+			BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumers, light, overlay, canvas, ModelLoader.BANNER_BASE, true, bannerPatterns, itemStack.hasGlint());
+		}
+
 	}
 
 	/**

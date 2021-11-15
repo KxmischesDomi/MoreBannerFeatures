@@ -1,17 +1,14 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.boat;
 
-import com.mojang.datafixers.util.Pair;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
-import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.block.entity.BannerPattern;
+import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.BoatEntityRenderer;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -21,7 +18,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
@@ -30,8 +26,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -53,11 +47,9 @@ public abstract class BoatEntityRendererMixin extends EntityRenderer<BoatEntity>
 	private void render(BoatEntity entity, float f, float g, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
 		try {
 
-			if (entity instanceof Bannerable) {
-				Bannerable bannerable = (Bannerable) entity;
+			if (entity instanceof Bannerable bannerable) {
 				ItemStack itemStack = bannerable.getBannerItem();
 				if (itemStack == null || !(itemStack.getItem() instanceof BannerItem)) return;
-				List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
 
 				matrices.push();
 
@@ -93,7 +85,7 @@ public abstract class BoatEntityRendererMixin extends EntityRenderer<BoatEntity>
 				this.banner.pitch = (-0.0125F + 0.01F * MathHelper.cos(6.2831855F * n)) * 3.1415927F;
 				this.banner.pivotY = -32.0F;
 
-				BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner, ModelLoader.BANNER_BASE, true, bannerPatterns);
+				RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, banner);
 
 				matrices.pop();
 			}

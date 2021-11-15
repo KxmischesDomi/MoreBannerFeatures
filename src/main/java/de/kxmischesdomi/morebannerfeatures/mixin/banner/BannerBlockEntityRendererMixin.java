@@ -15,7 +15,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -43,6 +45,13 @@ public abstract class BannerBlockEntityRendererMixin implements BlockEntityRende
 			// There is a banner from before the mod was downloaded.
 		}
 
+	}
+
+	@ModifyArgs(method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/SpriteIdentifier;getVertexConsumer(Lnet/minecraft/client/render/VertexConsumerProvider;Ljava/util/function/Function;Z)Lnet/minecraft/client/render/VertexConsumer;"))
+	private static void modifyArgs(Args args) {
+		if (!((boolean) args.get(2))) {
+			args.set(2, MBFOptions.BANNER_GLINT.getBooleanValue());
+		}
 	}
 
 }

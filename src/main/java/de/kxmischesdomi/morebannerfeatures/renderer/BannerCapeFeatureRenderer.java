@@ -1,30 +1,24 @@
 package de.kxmischesdomi.morebannerfeatures.renderer;
 
-import com.mojang.datafixers.util.Pair;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPart.Cuboid;
 import net.minecraft.client.model.ModelPartBuilder;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3f;
 
@@ -52,51 +46,50 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 	}
 
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-		if (hasCustomBanner(player) && !player.isInvisible()) {
-			ItemStack bannerItem = ((Bannerable) player).getBannerItem();
-			ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
-			if (bannerItem.getItem() instanceof BannerItem && !itemStack.isOf(Items.ELYTRA)) {
-				matrices.push();
-				matrices.translate(0.0D, 0.0D, 0.125D);
-				double d = MathHelper.lerp(tickDelta, player.prevCapeX, player.capeX) - MathHelper.lerp(tickDelta, player.prevX, player.getX());
-				double e = MathHelper.lerp(tickDelta, player.prevCapeY, player.capeY) - MathHelper.lerp(tickDelta, player.prevY, player.getY());
-				double m = MathHelper.lerp(tickDelta, player.prevCapeZ, player.capeZ) - MathHelper.lerp(tickDelta, player.prevZ, player.getZ());
-				float n = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw);
-				double o = MathHelper.sin(n * 0.017453292F);
-				double p = -MathHelper.cos(n * 0.017453292F);
-				float q = (float)e * 10.0F;
-				q = MathHelper.clamp(q, -6.0F, 32.0F);
-				float r = (float)(d * o + m * p) * 100.0F;
-				r = MathHelper.clamp(r, 0.0F, 150.0F);
-				float s = (float)(d * p - m * o) * 100.0F;
-				s = MathHelper.clamp(s, -20.0F, 20.0F);
-				if (r < 0.0F) {
-					r = 0.0F;
+		// Safety try catch to avoid crashes!
+		try {
+			if (hasCustomBanner(player) && !player.isInvisible()) {
+				ItemStack bannerItem = ((Bannerable) player).getBannerItem();
+				ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
+				if (bannerItem.getItem() instanceof BannerItem && !itemStack.isOf(Items.ELYTRA)) {
+					matrices.push();
+					matrices.translate(0.0D, 0.0D, 0.125D);
+					double d = MathHelper.lerp(tickDelta, player.prevCapeX, player.capeX) - MathHelper.lerp(tickDelta, player.prevX, player.getX());
+					double e = MathHelper.lerp(tickDelta, player.prevCapeY, player.capeY) - MathHelper.lerp(tickDelta, player.prevY, player.getY());
+					double m = MathHelper.lerp(tickDelta, player.prevCapeZ, player.capeZ) - MathHelper.lerp(tickDelta, player.prevZ, player.getZ());
+					float n = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw);
+					double o = MathHelper.sin(n * 0.017453292F);
+					double p = -MathHelper.cos(n * 0.017453292F);
+					float q = (float)e * 10.0F;
+					q = MathHelper.clamp(q, -6.0F, 32.0F);
+					float r = (float)(d * o + m * p) * 100.0F;
+					r = MathHelper.clamp(r, 0.0F, 150.0F);
+					float s = (float)(d * p - m * o) * 100.0F;
+					s = MathHelper.clamp(s, -20.0F, 20.0F);
+					if (r < 0.0F) {
+						r = 0.0F;
+					}
+
+					float t = MathHelper.lerp(tickDelta, player.prevStrideDistance, player.strideDistance);
+					q += MathHelper.sin(MathHelper.lerp(tickDelta, player.prevHorizontalSpeed, player.horizontalSpeed) * 6.0F) * 32.0F * t;
+					if (player.isInSneakingPose()) {
+						q += 25.0F;
+						matrices.translate(0, 0.14, -0.02);
+					}
+					RendererUtils.modifyMatricesDevelopment(matrices);
+
+					matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(6.0F + r / 2.0F + q));
+					matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
+					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - s / 2.0F));
+
+					RendererUtils.renderCanvasFromItem(bannerItem, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak);
+
+					matrices.pop();
 				}
-
-				float t = MathHelper.lerp(tickDelta, player.prevStrideDistance, player.strideDistance);
-				q += MathHelper.sin(MathHelper.lerp(tickDelta, player.prevHorizontalSpeed, player.horizontalSpeed) * 6.0F) * 32.0F * t;
-				if (player.isInSneakingPose()) {
-					q += 25.0F;
-					matrices.translate(0, 0.14, -0.02);
-				}
-				RendererUtils.modifyMatricesDevelopment(matrices);
-
-				matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(6.0F + r / 2.0F + q));
-				matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
-				matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - s / 2.0F));
-
-				// Safety try catch to avoid crashes!
-				try {
-					List<Pair<BannerPattern, DyeColor>> patterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) bannerItem.getItem()).getColor(), BannerBlockEntity.getPatternListTag(bannerItem));
-					BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak, ModelLoader.BANNER_BASE, true, patterns);
-				} catch (Exception exception) {
-					ErrorSystemManager.reportException();
-					exception.printStackTrace();
-				}
-
-				matrices.pop();
 			}
+		} catch (Exception exception) {
+			ErrorSystemManager.reportException();
+			exception.printStackTrace();
 		}
 	}
 
