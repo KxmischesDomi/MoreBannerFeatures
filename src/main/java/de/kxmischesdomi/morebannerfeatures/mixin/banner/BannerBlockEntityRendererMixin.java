@@ -1,6 +1,7 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.banner;
 
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
+import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.minecraft.block.BannerBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BannerBlockEntity;
@@ -49,7 +50,10 @@ public abstract class BannerBlockEntityRendererMixin implements BlockEntityRende
 
 	@ModifyArgs(method = "renderCanvas(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/SpriteIdentifier;ZLjava/util/List;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/SpriteIdentifier;getVertexConsumer(Lnet/minecraft/client/render/VertexConsumerProvider;Ljava/util/function/Function;Z)Lnet/minecraft/client/render/VertexConsumer;"))
 	private static void modifyArgs(Args args) {
-		if (!((boolean) args.get(2))) {
+		if (RendererUtils.nextBannerGlint) {
+			RendererUtils.nextBannerGlint = false;
+			args.set(2, true);
+		} else if (!((boolean) args.get(2))) {
 			args.set(2, MBFOptions.BANNER_GLINT.getBooleanValue());
 		}
 	}

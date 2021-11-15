@@ -26,6 +26,8 @@ import java.util.function.Function;
  */
 public class RendererUtils {
 
+	public static boolean nextBannerGlint = false;
+
 	public static void modifyMatricesDevelopment(MatrixStack matrices) {
 		// DEVELOPMENT OFFSETS FOR TESTING
 		Vec3d offset = DevelopmentUtils.offset;

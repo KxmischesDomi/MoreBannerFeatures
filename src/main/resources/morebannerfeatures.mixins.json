@@ -11,6 +11,7 @@
 		"fox.FoxHeldItemFeatureRendererMixin",
 		"horse.HorseBaseEntityMixin",
 		"horse.HorseScreenHandlerMixin",
+		"item.BuiltinModelItemRendererMixin",
 		"llama.LLamaEntityMixin",
 		"pig.PigEntityMixin",
 		"player.LivingEntityMixin",
