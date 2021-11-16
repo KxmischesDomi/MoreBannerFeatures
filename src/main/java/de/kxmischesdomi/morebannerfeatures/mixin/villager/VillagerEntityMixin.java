@@ -2,21 +2,21 @@ package de.kxmischesdomi.morebannerfeatures.mixin.villager;
 
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.passive.MerchantEntity;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShearsItem;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.core.NonNullList;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,75 +27,75 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.1
  */
-@Mixin(VillagerEntity.class)
-public abstract class VillagerEntityMixin extends MerchantEntity implements Bannerable {
+@Mixin(Villager.class)
+public abstract class VillagerEntityMixin extends AbstractVillager implements Bannerable {
 
-	@Shadow public abstract ActionResult interactMob(PlayerEntity player, Hand hand);
+	@Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
-	@Shadow public abstract boolean isReadyToBreed();
+	@Shadow public abstract boolean canBreed();
 
-	public VillagerEntityMixin(EntityType<? extends MerchantEntity> entityType, World world) {
+	public VillagerEntityMixin(EntityType<? extends AbstractVillager> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Override
 	public ItemStack getBannerItem() {
-		return getEquippedStack(EquipmentSlot.HEAD);
+		return getItemBySlot(EquipmentSlot.HEAD);
 	}
 
 	public void setBannerItem(ItemStack itemStack) {
-		((DefaultedList<ItemStack>) this.getArmorItems()).set(EquipmentSlot.HEAD.getEntitySlotId(), itemStack);
+		((NonNullList<ItemStack>) this.getArmorSlots()).set(EquipmentSlot.HEAD.getIndex(), itemStack);
 	}
 
 	@Override
-	protected void dropInventory() {
+	protected void dropEquipment() {
 		if (!getBannerItem().isEmpty()) {
-			dropStack(getBannerItem());
+			spawnAtLocation(getBannerItem());
 		}
-		super.dropInventory();
+		super.dropEquipment();
 	}
 
-	@Inject(method = "interactMob", at = @At(value = "HEAD"), cancellable = true)
-	private void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+	@Inject(method = "mobInteract", at = @At(value = "HEAD"), cancellable = true)
+	private void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
 
 		if (!MBFOptions.VILLAGER_BANNERS.getBooleanValue()) {
 			return;
 		}
 
-		if (player.shouldCancelInteraction()) return;
+		if (player.isSecondaryUseActive()) return;
 
-		ItemStack itemStack = player.getStackInHand(hand);
+		ItemStack itemStack = player.getItemInHand(hand);
 		ItemStack bannerItem = getBannerItem();
 		if (itemStack.getItem() instanceof BannerItem) {
-			if (bannerItem.isItemEqualIgnoreDamage(itemStack)) return;
+			if (bannerItem.sameItem(itemStack)) return;
 
-			this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_HORSE_STEP_WOOD, SoundCategory.PLAYERS, 1.0F, 1.0F);
+			this.level.playSound(null, this, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
 
 			if (!bannerItem.isEmpty()) {
-				dropStack(bannerItem);
+				spawnAtLocation(bannerItem);
 			}
 
 			ItemStack copy = itemStack.copy();
 			copy.setCount(1);
 			setBannerItem(copy);
 
-			if (!player.getAbilities().creativeMode) {
-				itemStack.decrement(1);
+			if (!player.getAbilities().instabuild) {
+				itemStack.shrink(1);
 			}
 
-			cir.setReturnValue(ActionResult.SUCCESS);
+			cir.setReturnValue(InteractionResult.SUCCESS);
 			cir.cancel();
 		} else if (itemStack.getItem() instanceof ShearsItem) {
 
-			this.world.playSoundFromEntity(null, this, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.PLAYERS, 1.0F, 1.0F);
-			this.emitGameEvent(GameEvent.SHEAR, player);
-			itemStack.damage(1, player, (playerx) -> {
-				playerx.sendToolBreakStatus(hand);
+			this.level.playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+			this.gameEvent(GameEvent.SHEAR, player);
+			itemStack.hurtAndBreak(1, player, (playerx) -> {
+				playerx.broadcastBreakEvent(hand);
 			});
 
-			dropStack(bannerItem);
+			spawnAtLocation(bannerItem);
 			setBannerItem(ItemStack.EMPTY);
-			cir.setReturnValue(ActionResult.SUCCESS);
+			cir.setReturnValue(InteractionResult.SUCCESS);
 			cir.cancel();
 		}
 

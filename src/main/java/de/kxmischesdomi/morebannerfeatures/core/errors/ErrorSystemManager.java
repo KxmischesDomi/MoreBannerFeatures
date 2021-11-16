@@ -1,11 +1,11 @@
 package de.kxmischesdomi.morebannerfeatures.core.errors;
 
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.Style;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -18,12 +18,12 @@ public class ErrorSystemManager {
 	public static void reportException() {
 		if (canBeReportedAgain()) {
 			lastTimeReported = System.currentTimeMillis();
-			ClientPlayerEntity player = MinecraftClient.getInstance().player;
+			LocalPlayer player = Minecraft.getInstance().player;
 			if (player != null) {
-				TranslatableText text = new TranslatableText("mbf.message.error");
+				TranslatableComponent text = new TranslatableComponent("mbf.message.error");
 				Style style = text.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/7BSqZa9r3P"));
 				text.setStyle(style);
-				player.sendMessage(text, false);
+				player.displayClientMessage(text, false);
 			}
 		}
 	}

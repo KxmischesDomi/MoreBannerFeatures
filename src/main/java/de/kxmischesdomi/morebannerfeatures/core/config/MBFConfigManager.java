@@ -5,7 +5,6 @@ import com.google.gson.JsonParser;
 import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
 import de.kxmischesdomi.morebannerfeatures.core.config.options.IOption;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.option.Option;
 
 import java.io.*;
 import java.lang.reflect.Field;

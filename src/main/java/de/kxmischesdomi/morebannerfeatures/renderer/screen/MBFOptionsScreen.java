@@ -1,17 +1,17 @@
 package de.kxmischesdomi.morebannerfeatures.renderer.screen;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFConfigManager;
 import de.kxmischesdomi.morebannerfeatures.core.config.options.IOption;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.widget.ButtonListWidget;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.option.Option;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Option;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.OptionsList;
+import net.minecraft.client.gui.screens.OptionsSubScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.FormattedCharSequence;
 
 import java.util.List;
 
@@ -19,35 +19,35 @@ import java.util.List;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-public class MBFOptionsScreen extends GameOptionsScreen {
+public class MBFOptionsScreen extends OptionsSubScreen {
 
 	private final Screen previous;
-	private ButtonListWidget buttonList;
+	private OptionsList buttonList;
 
 	@SuppressWarnings("resource")
 	public MBFOptionsScreen(Screen previous) {
-		super(previous, MinecraftClient.getInstance().options, new TranslatableText("mbf.options"));
+		super(previous, Minecraft.getInstance().options, new TranslatableComponent("mbf.options"));
 		this.previous = previous;
 	}
 
 	protected void init() {
-		this.buttonList = new ButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
-		this.buttonList.addAll(getAllToDisplay());
-		this.addSelectableChild(this.buttonList);
-		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 27, 200, 20, ScreenTexts.DONE, (button) -> {
+		this.buttonList = new OptionsList(this.minecraft, this.width, this.height, 32, this.height - 32, 25);
+		this.buttonList.addSmall(getAllToDisplay());
+		this.addWidget(this.buttonList);
+		this.addRenderableWidget(new Button(this.width / 2 - 100, this.height - 27, 200, 20, CommonComponents.GUI_DONE, (button) -> {
 			MBFConfigManager.save();
-			this.client.setScreen(this.previous);
+			this.minecraft.setScreen(this.previous);
 		}));
 	}
 
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+	public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
 		this.buttonList.render(matrices, mouseX, mouseY, delta);
-		drawCenteredText(matrices, this.textRenderer, this.title, this.width / 2, 5, 0xffffff);
+		drawCenteredString(matrices, this.font, this.title, this.width / 2, 5, 0xffffff);
 		super.render(matrices, mouseX, mouseY, delta);
-		List<OrderedText> tooltip = getHoveredButtonTooltip(this.buttonList, mouseX, mouseY);
+		List<FormattedCharSequence> tooltip = tooltipAt(this.buttonList, mouseX, mouseY);
 		if (tooltip != null) {
-			this.renderOrderedTooltip(matrices, tooltip, mouseX, mouseY);
+			this.renderTooltip(matrices, tooltip, mouseX, mouseY);
 		}
 
 	}

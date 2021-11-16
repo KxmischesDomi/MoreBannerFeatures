@@ -1,27 +1,26 @@
 package de.kxmischesdomi.morebannerfeatures.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.ModelPart.Cuboid;
-import net.minecraft.client.model.ModelPartBuilder;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3f;
-
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.ModelPart.Cube;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,60 +30,60 @@ import java.util.stream.Collectors;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
+public class BannerCapeFeatureRenderer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> {
 
 	private final ModelPart cloak;
 
-	public BannerCapeFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> featureRendererContext) {
+	public BannerCapeFeatureRenderer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> featureRendererContext) {
 		super(featureRendererContext);
 
 		// OWN CLOAK WITH CUSTOM TEXTURE SIZE TO FIT THE BANNER TEXTURE
-		ModelPartBuilder modelPartBuilder = new ModelPartBuilder();
-		modelPartBuilder.uv(0, 0).cuboid(-5.0F, 0.0F, -1.0F, 10.0F, 16.0F, 1.0F);
-		List<Cuboid> cuboids = modelPartBuilder.build().stream().map(modelCuboidData -> modelCuboidData.createCuboid(34, 27)).collect(Collectors.toList());
+		CubeListBuilder modelPartBuilder = new CubeListBuilder();
+		modelPartBuilder.texOffs(0, 0).addBox(-5.0F, 0.0F, -1.0F, 10.0F, 16.0F, 1.0F);
+		List<Cube> cuboids = modelPartBuilder.getCubes().stream().map(modelCuboidData -> modelCuboidData.bake(34, 27)).collect(Collectors.toList());
 		cloak = new ModelPart(cuboids, new HashMap<>());
 	}
 
-	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, AbstractClientPlayerEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, AbstractClientPlayer player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		// Safety try catch to avoid crashes!
 		try {
 			if (hasCustomBanner(player) && !player.isInvisible()) {
 				ItemStack bannerItem = ((Bannerable) player).getBannerItem();
-				ItemStack itemStack = player.getEquippedStack(EquipmentSlot.CHEST);
-				if (bannerItem.getItem() instanceof BannerItem && !itemStack.isOf(Items.ELYTRA)) {
-					matrices.push();
+				ItemStack itemStack = player.getItemBySlot(EquipmentSlot.CHEST);
+				if (bannerItem.getItem() instanceof BannerItem && !itemStack.is(Items.ELYTRA)) {
+					matrices.pushPose();
 					matrices.translate(0.0D, 0.0D, 0.125D);
-					double d = MathHelper.lerp(tickDelta, player.prevCapeX, player.capeX) - MathHelper.lerp(tickDelta, player.prevX, player.getX());
-					double e = MathHelper.lerp(tickDelta, player.prevCapeY, player.capeY) - MathHelper.lerp(tickDelta, player.prevY, player.getY());
-					double m = MathHelper.lerp(tickDelta, player.prevCapeZ, player.capeZ) - MathHelper.lerp(tickDelta, player.prevZ, player.getZ());
-					float n = player.prevBodyYaw + (player.bodyYaw - player.prevBodyYaw);
-					double o = MathHelper.sin(n * 0.017453292F);
-					double p = -MathHelper.cos(n * 0.017453292F);
+					double d = Mth.lerp(tickDelta, player.xCloakO, player.xCloak) - Mth.lerp(tickDelta, player.xo, player.getX());
+					double e = Mth.lerp(tickDelta, player.yCloakO, player.yCloak) - Mth.lerp(tickDelta, player.yo, player.getY());
+					double m = Mth.lerp(tickDelta, player.zCloakO, player.zCloak) - Mth.lerp(tickDelta, player.zo, player.getZ());
+					float n = player.yBodyRotO + (player.yBodyRot - player.yBodyRotO);
+					double o = Mth.sin(n * 0.017453292F);
+					double p = -Mth.cos(n * 0.017453292F);
 					float q = (float)e * 10.0F;
-					q = MathHelper.clamp(q, -6.0F, 32.0F);
+					q = Mth.clamp(q, -6.0F, 32.0F);
 					float r = (float)(d * o + m * p) * 100.0F;
-					r = MathHelper.clamp(r, 0.0F, 150.0F);
+					r = Mth.clamp(r, 0.0F, 150.0F);
 					float s = (float)(d * p - m * o) * 100.0F;
-					s = MathHelper.clamp(s, -20.0F, 20.0F);
+					s = Mth.clamp(s, -20.0F, 20.0F);
 					if (r < 0.0F) {
 						r = 0.0F;
 					}
 
-					float t = MathHelper.lerp(tickDelta, player.prevStrideDistance, player.strideDistance);
-					q += MathHelper.sin(MathHelper.lerp(tickDelta, player.prevHorizontalSpeed, player.horizontalSpeed) * 6.0F) * 32.0F * t;
-					if (player.isInSneakingPose()) {
+					float t = Mth.lerp(tickDelta, player.oBob, player.bob);
+					q += Mth.sin(Mth.lerp(tickDelta, player.walkDistO, player.walkDist) * 6.0F) * 32.0F * t;
+					if (player.isCrouching()) {
 						q += 25.0F;
 						matrices.translate(0, 0.14, -0.02);
 					}
 					RendererUtils.modifyMatricesDevelopment(matrices);
 
-					matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(6.0F + r / 2.0F + q));
-					matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(s / 2.0F));
-					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F - s / 2.0F));
+					matrices.mulPose(Vector3f.XP.rotationDegrees(6.0F + r / 2.0F + q));
+					matrices.mulPose(Vector3f.ZP.rotationDegrees(s / 2.0F));
+					matrices.mulPose(Vector3f.YP.rotationDegrees(180.0F - s / 2.0F));
 
-					RendererUtils.renderCanvasFromItem(bannerItem, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, cloak);
+					RendererUtils.renderCanvasFromItem(bannerItem, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, cloak);
 
-					matrices.pop();
+					matrices.popPose();
 				}
 			}
 		} catch (Exception exception) {
@@ -93,7 +92,7 @@ public class BannerCapeFeatureRenderer extends FeatureRenderer<AbstractClientPla
 		}
 	}
 
-	public boolean hasCustomBanner(AbstractClientPlayerEntity playerEntity) {
+	public boolean hasCustomBanner(AbstractClientPlayer playerEntity) {
 		return playerEntity instanceof Bannerable && !((Bannerable) playerEntity).getBannerItem().isEmpty();
 	}
 

@@ -1,22 +1,22 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.piglin;
 
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.mob.AbstractPiglinEntity;
-import net.minecraft.entity.mob.PiglinBruteEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.DyeColor;
-import net.minecraft.world.LocalDifficulty;
-import net.minecraft.world.ServerWorldAccess;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
+import net.minecraft.world.entity.monster.piglin.PiglinBrute;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.entity.BannerPattern;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,40 +27,40 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-@Mixin(PiglinBruteEntity.class)
-public abstract class PiglinBruteEntityMixin extends AbstractPiglinEntity {
+@Mixin(PiglinBrute.class)
+public abstract class PiglinBruteEntityMixin extends AbstractPiglin {
 
-	@Shadow public abstract Brain<PiglinBruteEntity> getBrain();
+	@Shadow public abstract Brain<PiglinBrute> getBrain();
 
 	private static final ItemStack HEAD_BANNER;
 
-	public PiglinBruteEntityMixin(EntityType<? extends AbstractPiglinEntity> entityType, World world) {
+	public PiglinBruteEntityMixin(EntityType<? extends AbstractPiglin> entityType, Level world) {
 		super(entityType, world);
 	}
 
 	@Inject(method = "initialize", at = @At(value = "HEAD"))
-	private void initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, EntityData entityData, NbtCompound entityNbt, CallbackInfoReturnable<EntityData> cir) {
-		if (spawnReason == SpawnReason.STRUCTURE) {
-			this.equipStack(EquipmentSlot.HEAD, HEAD_BANNER);
+	private void initialize(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, SpawnGroupData entityData, CompoundTag entityNbt, CallbackInfoReturnable<SpawnGroupData> cir) {
+		if (spawnReason == MobSpawnType.STRUCTURE) {
+			this.setItemSlot(EquipmentSlot.HEAD, HEAD_BANNER);
 		}
 	}
 
 	@Override
-	protected void dropInventory() {
-		dropStack(getEquippedStack(EquipmentSlot.HEAD));
-		super.dropInventory();
+	protected void dropEquipment() {
+		spawnAtLocation(getItemBySlot(EquipmentSlot.HEAD));
+		super.dropEquipment();
 	}
 
 	static {
 		HEAD_BANNER = new ItemStack(Items.BROWN_BANNER);
-		HEAD_BANNER.setCustomName(new TranslatableText("block.minecraft.fortune_banner"));
-		NbtCompound nbtCompound = HEAD_BANNER.getOrCreateSubNbt("BlockEntityTag");
+		HEAD_BANNER.setHoverName(new TranslatableComponent("block.minecraft.fortune_banner"));
+		CompoundTag nbtCompound = HEAD_BANNER.getOrCreateTagElement("BlockEntityTag");
 
-		NbtList nbtList = new NbtList();
+		ListTag nbtList = new ListTag();
 		nbtCompound.put("Patterns", nbtList);
 
-		NbtCompound snoutPattern = new NbtCompound();
-		snoutPattern.putString("Pattern", BannerPattern.PIGLIN.getId());
+		CompoundTag snoutPattern = new CompoundTag();
+		snoutPattern.putString("Pattern", BannerPattern.PIGLIN.getHashname());
 		snoutPattern.putInt("Color", DyeColor.YELLOW.getId());
 		nbtList.add(snoutPattern);
 

@@ -1,6 +1,9 @@
 package de.kxmischesdomi.morebannerfeatures.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.math.Vector3f;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
@@ -9,29 +12,26 @@ import de.kxmischesdomi.morebannerfeatures.utils.DevelopmentUtils;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.HorseEntityModel;
-import net.minecraft.client.render.model.ModelLoader;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HorseModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
@@ -40,34 +40,34 @@ import java.util.List;
  * @since 1.0
  */
 @Environment(EnvType.CLIENT)
-public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEntity, HorseEntityModel<HorseBaseEntity>> {
+public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, HorseModel<AbstractHorse>> {
 
 	private static ModelPart flagPart;
 	private static ModelPart crossbarPart;
 
-	public HorseBaseBannerFeatureRenderer(FeatureRendererContext<HorseBaseEntity, HorseEntityModel<HorseBaseEntity>> context) {
+	public HorseBaseBannerFeatureRenderer(RenderLayerParent<AbstractHorse, HorseModel<AbstractHorse>> context) {
 		super(context);
 	}
 
 	@Override
-	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, HorseBaseEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, AbstractHorse entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		renderSideBanner(matrices, vertexConsumers, light, entity, limbAngle, limbDistance, tickDelta, animationProgress, headYaw, headPitch);
 	}
 
-	public static void renderSideBanner(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Entity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+	public static void renderSideBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, Entity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
 		if (entity instanceof Bannerable bannerable) {
-			matrices.push();
+			matrices.pushPose();
 
 			// ENTITY AND ITEM PREPARATIONS
 			ItemStack itemStack = bannerable.getBannerItem();
 			if (itemStack == null || itemStack.isEmpty() || !(itemStack.getItem() instanceof BannerItem)) {
-				matrices.pop();
+				matrices.popPose();
 				return;
 			}
 
-			if (entity instanceof HorseBaseEntity horseBaseEntity) {
-				float o = horseBaseEntity.getAngryAnimationProgress(tickDelta);
-				matrices.multiply(Vec3f.POSITIVE_X.getRadialQuaternion(o * -0.7853982F));
+			if (entity instanceof AbstractHorse abstractHorse) {
+				float o = abstractHorse.getStandAnim(tickDelta);
+				matrices.mulPose(Vector3f.XP.rotation(o * -0.7853982F));
 				matrices.translate(0, o * -0.4136991F, o * 0.3926991F);
 			}
 
@@ -75,103 +75,103 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 			matrices.scale(0.45f, 0.45f, 0.45f);
 
 			// FIRST BANNER
-			matrices.push();
+			matrices.pushPose();
 
 			// START MODIFYING
 			scaleMatricesForEntity(matrices, entity);
-			matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90));
+			matrices.mulPose(Vector3f.YP.rotationDegrees(90));
 			modifyMatricesDefault(matrices, true);
 			modifyMatricesForEntity(matrices, entity, true);
-			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFreezing());
+			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
 
 			// FINISHED MODIFYING
 			renderBanner(matrices, vertexConsumers, light, entity, tickDelta, itemStack);
-			matrices.pop();
+			matrices.popPose();
 
 			// SECOND BANNER
 
 			// START MODIFYING
 			scaleMatricesForEntity(matrices, entity);
-			matrices.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(90));
+			matrices.mulPose(Vector3f.YN.rotationDegrees(90));
 			modifyMatricesDefault(matrices, false);
 			modifyMatricesForEntity(matrices, entity, false);
-			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFreezing());
+			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
 
 			// FINISHED MODIFYING
 			renderBanner(matrices, vertexConsumers, light, entity, tickDelta, itemStack);
-			matrices.pop();
+			matrices.popPose();
 		}
 	}
 
-	private static Vec3d modifyMatricesDefault(MatrixStack matrices, boolean first) {
+	private static Vec3 modifyMatricesDefault(PoseStack matrices, boolean first) {
 		// ADD DEFAULTS
-		Vec3d offset = new Vec3d(0.83F, -0.41F, 0.07F);
+		Vec3 offset = new Vec3(0.83F, -0.41F, 0.07F);
 		// DEVELOPMENT OFFSETS FOR TESTING
 		offset = offset.add(DevelopmentUtils.offset);
 
 		if (first) {
-			matrices.translate(-offset.getZ(), -offset.getY(), offset.getX());
+			matrices.translate(-offset.z(), -offset.y(), offset.x());
 		} else {
-			matrices.translate(offset.getZ(), -offset.getY(), offset.getX());
+			matrices.translate(offset.z(), -offset.y(), offset.x());
 
 		}
 
 		return offset;
 	}
 
-	private static Vec3d modifyMatricesForEntity(MatrixStack matrices, Entity entity, boolean first) {
-		if (!DevelopmentUtils.applyEntityOffsets) return Vec3d.ZERO;
+	private static Vec3 modifyMatricesForEntity(PoseStack matrices, Entity entity, boolean first) {
+		if (!DevelopmentUtils.applyEntityOffsets) return Vec3.ZERO;
 
 		if (entity instanceof SideBannerable bannerable) {
 
-			Vec3d offset = new Vec3d(bannerable.getXOffset(), bannerable.getYOffset(), bannerable.getZOffset());
+			Vec3 offset = new Vec3(bannerable.getXOffset(), bannerable.getYOffset(), bannerable.getZOffset());
 
 			if (first) {
-				matrices.translate(-offset.getZ(), -offset.getY(), offset.getX());
+				matrices.translate(-offset.z(), -offset.y(), offset.x());
 			} else {
-				matrices.translate(offset.getZ(), -offset.getY(), offset.getX());
+				matrices.translate(offset.z(), -offset.y(), offset.x());
 			}
 
 			return offset;
 		}
 
-		return Vec3d.ZERO;
+		return Vec3.ZERO;
 	}
 
-	private static void scaleMatricesForEntity(MatrixStack matrices, Entity entity) {
+	private static void scaleMatricesForEntity(PoseStack matrices, Entity entity) {
 		if (!DevelopmentUtils.applyEntityOffsets) return;
 
 		if (entity instanceof SideBannerable bannerable) {
-			Vec3d scaleOffset = bannerable.getScaleOffset();
-			if (scaleOffset != null) matrices.scale((float) scaleOffset.getX(), (float) scaleOffset.getY(), (float) scaleOffset.getZ());
+			Vec3 scaleOffset = bannerable.getScaleOffset();
+			if (scaleOffset != null) matrices.scale((float) scaleOffset.x(), (float) scaleOffset.y(), (float) scaleOffset.z());
 		}
 
 	}
 
-	private static void renderBanner(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Entity entity, float tickDelta, ItemStack itemStack) {
+	private static void renderBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, Entity entity, float tickDelta, ItemStack itemStack) {
 		RendererUtils.modifyMatricesBannerSwing(flagPart, entity, tickDelta, false, aFloat -> -aFloat);
 
 		// Safety try catch to avoid crashes!
 		try {
-			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
+			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.createPatterns(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getItemPatterns(itemStack));
 
-			int overlay = LivingEntityRenderer.getOverlay((LivingEntity) entity, 0.0F);
+			int overlay = LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0.0F);
 			boolean bar = MBFOptions.BAR.getBooleanValue();
 
-			matrices.push();
+			matrices.pushPose();
 
 			if (bar) {
 				matrices.translate(0, -0.01, 0.115);
 			}
 
-			RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.DEFAULT_UV, flagPart);
+			RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, flagPart);
 
-			matrices.pop();
+			matrices.popPose();
 
 			if (bar) {
 				matrices.translate(0, 1.99, -0.07);
 
-				VertexConsumer vertexConsumer = ModelLoader.BANNER_BASE.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
+				VertexConsumer vertexConsumer = ModelBakery.BANNER_BASE.buffer(vertexConsumers, RenderType::entitySolid);
 				crossbarPart.render(matrices, vertexConsumer, light, overlay);
 			}
 
@@ -183,7 +183,7 @@ public class HorseBaseBannerFeatureRenderer extends FeatureRenderer<HorseBaseEnt
 	}
 
 	static {
-		ModelPart modelPart = MinecraftClient.getInstance().getEntityModelLoader().getModelPart(EntityModelLayers.BANNER);
+		ModelPart modelPart = Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.BANNER);
 		flagPart = modelPart.getChild("flag");
 		crossbarPart = modelPart.getChild("bar");
 	}

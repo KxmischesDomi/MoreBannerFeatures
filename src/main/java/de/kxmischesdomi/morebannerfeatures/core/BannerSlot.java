@@ -1,11 +1,11 @@
 package de.kxmischesdomi.morebannerfeatures.core;
 
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
-import net.minecraft.entity.Entity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -15,23 +15,23 @@ public class BannerSlot extends Slot {
 
 	protected final Entity entity;
 
-	public BannerSlot(Entity entity, Inventory inventory, int index, int x, int y) {
+	public BannerSlot(Entity entity, Container inventory, int index, int x, int y) {
 		super(inventory, index, x, y);
 		this.entity = entity;
 	}
 
 	@Override
-	public boolean canInsert(ItemStack stack) {
-		return stack.getItem() instanceof BannerItem && !this.hasStack() && entity instanceof Bannerable;
+	public boolean mayPlace(ItemStack stack) {
+		return stack.getItem() instanceof BannerItem && !this.hasItem() && entity instanceof Bannerable;
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isActive() {
 		return entity instanceof Bannerable;
 	}
 
 	@Override
-	public int getMaxItemCount() {
+	public int getMaxStackSize() {
 		return 1;
 	}
 

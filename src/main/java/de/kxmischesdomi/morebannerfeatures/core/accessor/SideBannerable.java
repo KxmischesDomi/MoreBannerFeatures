@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.core.accessor;
 
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -11,6 +11,6 @@ public interface SideBannerable extends Bannerable {
 	default float getXOffset() { return 0;}
 	default float getYOffset() { return 0; }
 	default float getZOffset() { return 0; }
-	default Vec3d getScaleOffset() { return null; }
+	default Vec3 getScaleOffset() { return null; }
 
 }

@@ -2,10 +2,10 @@ package de.kxmischesdomi.morebannerfeatures.mixin.trader;
 
 import de.kxmischesdomi.morebannerfeatures.core.accessor.InventoryBannerable;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AbstractDonkeyEntity;
-import net.minecraft.entity.passive.TraderLlamaEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
+import net.minecraft.world.entity.animal.horse.TraderLlama;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 
 /**
@@ -13,10 +13,10 @@ import org.spongepowered.asm.mixin.Mixin;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0
  */
-@Mixin(TraderLlamaEntity.class)
-public abstract class TraderLLamaEntityMixin extends AbstractDonkeyEntity implements SideBannerable, InventoryBannerable {
+@Mixin(TraderLlama.class)
+public abstract class TraderLLamaEntityMixin extends AbstractChestedHorse implements SideBannerable, InventoryBannerable {
 
-	public TraderLLamaEntityMixin(EntityType<? extends AbstractDonkeyEntity> entityType, World world) {
+	public TraderLLamaEntityMixin(EntityType<? extends AbstractChestedHorse> entityType, Level world) {
 		super(entityType, world);
 	}
 

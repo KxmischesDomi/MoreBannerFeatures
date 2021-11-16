@@ -2,8 +2,8 @@ package de.kxmischesdomi.morebannerfeatures.core.config.options;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -15,20 +15,20 @@ public class BooleanOption implements IOption {
 
 	private boolean value;
 	private boolean defaultValue;
-	private Text tooltip;
+	private Component tooltip;
 	private boolean display = true;
 
 	public BooleanOption(String key) {
 		this.key = key;
 		this.value = false;
-		this.tooltip = new TranslatableText("mbf.tooltip." + key);
+		this.tooltip = new TranslatableComponent("mbf.tooltip." + key);
 	}
 
 	public BooleanOption(String key, boolean defaultValue) {
 		this.key = key;
 		this.value = defaultValue;
 		this.defaultValue = defaultValue;
-		this.tooltip = new TranslatableText("mbf.tooltip." + key);
+		this.tooltip = new TranslatableComponent("mbf.tooltip." + key);
 	}
 
 	@Override
@@ -49,11 +49,11 @@ public class BooleanOption implements IOption {
 
 	@Override
 	public Object toOption() {
-		net.minecraft.client.option.CyclingOption<Boolean> cyclingOption = net.minecraft.client.option.CyclingOption.create("mbf.options." + key, ignored -> value, (gameOptions, option, newValue) -> {
+		net.minecraft.client.CycleOption<Boolean> cyclingOption = net.minecraft.client.CycleOption.createOnOff("mbf.options." + key, ignored -> value, (gameOptions, option, newValue) -> {
 			this.value = newValue;
 		});
 		if (tooltip != null) {
-			cyclingOption.tooltip(client -> (value) -> client.textRenderer.wrapLines(tooltip, 200));
+			cyclingOption.setTooltip(client -> (value) -> client.font.split(tooltip, 200));
 		}
 		return cyclingOption;
 	}
@@ -72,7 +72,7 @@ public class BooleanOption implements IOption {
 		return this;
 	}
 
-	public BooleanOption tooltip(Text tooltip) {
+	public BooleanOption tooltip(Component tooltip) {
 		this.tooltip = tooltip;
 		return this;
 	}

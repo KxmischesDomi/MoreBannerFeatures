@@ -1,6 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.core.accessor;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi

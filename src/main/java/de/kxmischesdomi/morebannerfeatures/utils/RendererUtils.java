@@ -1,21 +1,21 @@
 package de.kxmischesdomi.morebannerfeatures.utils;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.block.entity.BannerBlockEntity;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;
-import net.minecraft.client.render.model.ModelLoader;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3f;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BannerRenderer;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.function.Function;
@@ -28,12 +28,12 @@ public class RendererUtils {
 
 	public static boolean nextBannerGlint = false;
 
-	public static void modifyMatricesDevelopment(MatrixStack matrices) {
+	public static void modifyMatricesDevelopment(PoseStack matrices) {
 		// DEVELOPMENT OFFSETS FOR TESTING
-		Vec3d offset = DevelopmentUtils.offset;
-		matrices.translate(offset.getX(), -offset.getY(), offset.getZ());
+		Vec3 offset = DevelopmentUtils.offset;
+		matrices.translate(offset.x(), -offset.y(), offset.z());
 		offset = DevelopmentUtils.scale;
-		matrices.scale((float) offset.getX(), (float) offset.getY(), (float) offset.getZ());
+		matrices.scale((float) offset.x(), (float) offset.y(), (float) offset.z());
 	}
 
 	public static void modifyMatricesBannerSwing(ModelPart banner, Entity entity, float tickDelta, boolean applyPivotY) {
@@ -41,24 +41,24 @@ public class RendererUtils {
 	}
 
 	public static void modifyMatricesBannerSwing(ModelPart banner, Entity entity, float tickDelta, boolean applyPivotY, Function<Float, Float> pitchFunction) {
-		Vec3d pos = entity.getPos();
-		long m = entity.world.getTime();
-		float n = ((float)Math.floorMod((long)(pos.getX() * 7 + pos.getY() * 9 + pos.getZ() * 13) + m, 100L) + tickDelta) / 100.0F;
-		banner.pitch = pitchFunction.apply((-0.0125F + 0.01F * MathHelper.cos(6.2831855F * n)) * 3.1415927F);
-		if (applyPivotY) banner.pivotY = -32.0F;
+		Vec3 pos = entity.position();
+		long m = entity.level.getGameTime();
+		float n = ((float)Math.floorMod((long)(pos.x() * 7 + pos.y() * 9 + pos.z() * 13) + m, 100L) + tickDelta) / 100.0F;
+		banner.xRot = pitchFunction.apply((-0.0125F + 0.01F * Mth.cos(6.2831855F * n)) * 3.1415927F);
+		if (applyPivotY) banner.y = -32.0F;
 	}
 
-	public static void modifyMatricesFreezing(MatrixStack matrices, Entity entity, boolean freezing) {
+	public static void modifyMatricesFreezing(PoseStack matrices, Entity entity, boolean freezing) {
 		if (freezing) {
-			float yaw = (float) (Math.cos((double) entity.age * 3.25D) * 3.141592653589793D * 0.4000000059604645D);
-			matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(yaw));
+			float yaw = (float) (Math.cos((double) entity.tickCount * 3.25D) * 3.141592653589793D * 0.4000000059604645D);
+			matrices.mulPose(Vector3f.YP.rotationDegrees(yaw));
 		}
 	}
 
-	public static void renderCanvasFromItem(ItemStack itemStack, MatrixStack matrixStack, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas) {
+	public static void renderCanvasFromItem(ItemStack itemStack, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas) {
 		if (itemStack.getItem() instanceof BannerItem) {
-			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.getPatternsFromNbt(((BannerItem) itemStack.getItem()).getColor(), BannerBlockEntity.getPatternListTag(itemStack));
-			BannerBlockEntityRenderer.renderCanvas(matrixStack, vertexConsumers, light, overlay, canvas, ModelLoader.BANNER_BASE, true, bannerPatterns, itemStack.hasGlint());
+			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.createPatterns(((BannerItem) itemStack.getItem()).getColor(), BannerBlockEntity.getItemPatterns(itemStack));
+			BannerRenderer.renderPatterns(matrixStack, vertexConsumers, light, overlay, canvas, ModelBakery.BANNER_BASE, true, bannerPatterns, itemStack.hasFoil());
 		}
 
 	}
@@ -68,13 +68,13 @@ public class RendererUtils {
 	 * Couldn't be removed yet because of Waveycapes compatibility.
 	 */
 	@Deprecated(forRemoval = true)
-	public static void renderCanvas(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas, SpriteIdentifier baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns) {
-		BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns, false);
+	public static void renderCanvas(PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas, Material baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns) {
+		BannerRenderer.renderPatterns(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns, false);
 	}
 
 	@Deprecated(forRemoval = true)
-	public static void renderCanvas(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas, SpriteIdentifier baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns, boolean glint) {
-		BannerBlockEntityRenderer.renderCanvas(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns);
+	public static void renderCanvas(PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas, Material baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns, boolean glint) {
+		BannerRenderer.renderPatterns(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns);
 	}
 
 }

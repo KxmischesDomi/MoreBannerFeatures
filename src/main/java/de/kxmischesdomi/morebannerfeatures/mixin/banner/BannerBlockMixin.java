@@ -1,18 +1,23 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.banner;
 
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
-import net.minecraft.block.*;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager.Builder;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.AbstractBannerBlock;
+import net.minecraft.world.level.block.BannerBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,31 +33,31 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	private static final BooleanProperty HANGING;
 
-	protected BannerBlockMixin(DyeColor color, Settings settings) {
+	protected BannerBlockMixin(DyeColor color, Properties settings) {
 		super(color, settings);
 	}
 
 	@Inject(method = "<init>", at = @At(value = "TAIL"))
-	private void init(DyeColor dyeColor, Settings settings, CallbackInfo ci) {
-		this.setDefaultState(this.getDefaultState().with(HANGING, false));
+	private void init(DyeColor dyeColor, Properties settings, CallbackInfo ci) {
+		this.registerDefaultState(this.defaultBlockState().setValue(HANGING, false));
 	}
 
-	@Inject(method = "getPlacementState", at = @At(value = "TAIL"), cancellable = true)
-	private void getPlacementState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir) {
+	@Inject(method = "getStateForPlacement", at = @At(value = "TAIL"), cancellable = true)
+	private void getPlacementState(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
 		BlockState state = cir.getReturnValue();
 		if (state == null) return;
 
-		Direction[] var3 = ctx.getPlacementDirections();
+		Direction[] var3 = ctx.getNearestLookingDirections();
 		int var4 = var3.length;
 
 		for(int var5 = 0; var5 < var4; ++var5) {
 			Direction direction = var3[var5];
-			if (direction == Direction.UP && ctx.getVerticalPlayerLookDirection() == Direction.UP) {
-				if (ctx.getWorld().getBlockState(ctx.getBlockPos().up()).getMaterial().isSolid()) {
-					cir.setReturnValue(state.with(HANGING, true));
+			if (direction == Direction.UP && ctx.getNearestLookingVerticalDirection() == Direction.UP) {
+				if (ctx.getLevel().getBlockState(ctx.getClickedPos().above()).getMaterial().isSolid()) {
+					cir.setReturnValue(state.setValue(HANGING, true));
 				}
 
 			}
@@ -60,43 +65,43 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 
 	}
 
-	@Inject(method = "appendProperties", at = @At(value = "TAIL"))
+	@Inject(method = "createBlockStateDefinition", at = @At(value = "TAIL"))
 	private void appendProperties(Builder<Block, BlockState> builder, CallbackInfo ci) {
 		builder.add(HANGING);
 	}
 
-	@Inject(method = "getOutlineShape", at = @At(value = "TAIL"), cancellable = true)
-	private void getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+	@Inject(method = "getShape", at = @At(value = "TAIL"), cancellable = true)
+	private void getOutlineShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
-		if (state.get(HANGING)) {
-			cir.setReturnValue(Block.createCuboidShape(1.3D, 14.0D, 1.3D, 14.7D, 16.0D, 14.7D));
+		if (state.getValue(HANGING)) {
+			cir.setReturnValue(Block.box(1.3D, 14.0D, 1.3D, 14.7D, 16.0D, 14.7D));
 		}
 	}
 
-	@Inject(method = "canPlaceAt", at = @At(value = "TAIL"), cancellable = true)
-	private void canPlaceAt(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+	@Inject(method = "canSurvive", at = @At(value = "TAIL"), cancellable = true)
+	private void canPlaceAt(BlockState state, LevelReader world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
-		if (state.get(HANGING) || !cir.getReturnValue()) {
-			cir.setReturnValue(world.getBlockState(pos.up()).getMaterial().isSolid());
+		if (state.getValue(HANGING) || !cir.getReturnValue()) {
+			cir.setReturnValue(world.getBlockState(pos.above()).getMaterial().isSolid());
 		}
 	}
 
-	@Inject(method = "getStateForNeighborUpdate", at = @At(value = "HEAD"), cancellable = true)
-	private void getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
+	@Inject(method = "updateShape", at = @At(value = "HEAD"), cancellable = true)
+	private void getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos, CallbackInfoReturnable<BlockState> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
 		}
-		if (state.get(HANGING)) {
-			cir.setReturnValue(direction == Direction.UP && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos));
+		if (state.getValue(HANGING)) {
+			cir.setReturnValue(direction == Direction.UP && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos));
 		}
 	}
 
 	static {
-		HANGING = Properties.HANGING;
+		HANGING = BlockStateProperties.HANGING;
 	}
 
 }
