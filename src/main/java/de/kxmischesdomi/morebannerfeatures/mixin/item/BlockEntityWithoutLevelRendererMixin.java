@@ -5,7 +5,9 @@ import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.AbstractBannerBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,9 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BlockEntityWithoutLevelRenderer.class)
 public abstract class BlockEntityWithoutLevelRendererMixin {
 
-	@Inject(method = "renderByItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/AbstractBannerBlock;getColor()Lnet/minecraft/world/item/DyeColor;"))
-	public void render(ItemStack stack, ItemTransforms.TransformType mode, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, CallbackInfo ci) {
-		if (stack.hasFoil()) {
+	@Inject(method = "renderByItem", at = @At(value = "HEAD"))
+	public void fixBannerItemRendering(ItemStack itemStack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, int j, CallbackInfo ci) {
+		if (itemStack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof AbstractBannerBlock && itemStack.hasFoil()) {
 			RendererUtils.nextBannerGlint = true;
 		}
 	}
