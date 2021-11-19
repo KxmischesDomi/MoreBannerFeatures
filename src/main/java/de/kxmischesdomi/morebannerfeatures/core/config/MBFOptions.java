@@ -21,8 +21,8 @@ public class MBFOptions {
 	public static final BooleanOption VILLAGER_BANNERS;
 
 	static {
-		SAMURAI_BANNER = new BooleanOption("samurai_banner", false);
-		BAR = new BooleanOption("bar", false).display(false);
+		BAR = new BooleanOption("bar", false);
+		SAMURAI_BANNER = new BooleanOption("samurai_banner", false).display(false);
 		FOX_CORRECTION = new BooleanOption("fox_correction", true);
 		BANNER_GLINT = new BooleanOption("banner_glint", false);
 		HORSE_SLOT = new BooleanOption("horse_slot", true);
