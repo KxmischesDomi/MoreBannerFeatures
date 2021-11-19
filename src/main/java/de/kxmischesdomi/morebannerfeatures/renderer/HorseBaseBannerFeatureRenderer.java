@@ -5,10 +5,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Vector3f;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
-import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
-import de.kxmischesdomi.morebannerfeatures.utils.DevelopmentUtils;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -78,10 +76,8 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 			matrices.pushPose();
 
 			// START MODIFYING
-			scaleMatricesForEntity(matrices, entity);
 			matrices.mulPose(Vector3f.YP.rotationDegrees(90));
 			modifyMatricesDefault(matrices, true);
-			modifyMatricesForEntity(matrices, entity, true);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
 
 			// FINISHED MODIFYING
@@ -91,10 +87,8 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 			// SECOND BANNER
 
 			// START MODIFYING
-			scaleMatricesForEntity(matrices, entity);
 			matrices.mulPose(Vector3f.YN.rotationDegrees(90));
 			modifyMatricesDefault(matrices, false);
-			modifyMatricesForEntity(matrices, entity, false);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
 
 			// FINISHED MODIFYING
@@ -106,8 +100,6 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 	private static Vec3 modifyMatricesDefault(PoseStack matrices, boolean first) {
 		// ADD DEFAULTS
 		Vec3 offset = new Vec3(0.83F, -0.41F, 0.07F);
-		// DEVELOPMENT OFFSETS FOR TESTING
-		offset = offset.add(DevelopmentUtils.offset);
 
 		if (first) {
 			matrices.translate(-offset.z(), -offset.y(), offset.x());
@@ -117,35 +109,6 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 		}
 
 		return offset;
-	}
-
-	private static Vec3 modifyMatricesForEntity(PoseStack matrices, Entity entity, boolean first) {
-		if (!DevelopmentUtils.applyEntityOffsets) return Vec3.ZERO;
-
-		if (entity instanceof SideBannerable bannerable) {
-
-			Vec3 offset = new Vec3(bannerable.getXOffset(), bannerable.getYOffset(), bannerable.getZOffset());
-
-			if (first) {
-				matrices.translate(-offset.z(), -offset.y(), offset.x());
-			} else {
-				matrices.translate(offset.z(), -offset.y(), offset.x());
-			}
-
-			return offset;
-		}
-
-		return Vec3.ZERO;
-	}
-
-	private static void scaleMatricesForEntity(PoseStack matrices, Entity entity) {
-		if (!DevelopmentUtils.applyEntityOffsets) return;
-
-		if (entity instanceof SideBannerable bannerable) {
-			Vec3 scaleOffset = bannerable.getScaleOffset();
-			if (scaleOffset != null) matrices.scale((float) scaleOffset.x(), (float) scaleOffset.y(), (float) scaleOffset.z());
-		}
-
 	}
 
 	private static void renderBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, Entity entity, float tickDelta, ItemStack itemStack) {

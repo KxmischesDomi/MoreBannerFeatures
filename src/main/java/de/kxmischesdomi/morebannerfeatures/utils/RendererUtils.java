@@ -28,14 +28,6 @@ public class RendererUtils {
 
 	public static boolean nextBannerGlint = false;
 
-	public static void modifyMatricesDevelopment(PoseStack matrices) {
-		// DEVELOPMENT OFFSETS FOR TESTING
-		Vec3 offset = DevelopmentUtils.offset;
-		matrices.translate(offset.x(), -offset.y(), offset.z());
-		offset = DevelopmentUtils.scale;
-		matrices.scale((float) offset.x(), (float) offset.y(), (float) offset.z());
-	}
-
 	public static void modifyMatricesBannerSwing(ModelPart banner, Entity entity, float tickDelta, boolean applyPivotY) {
 		modifyMatricesBannerSwing(banner, entity, tickDelta, applyPivotY, aFloat -> aFloat);
 	}

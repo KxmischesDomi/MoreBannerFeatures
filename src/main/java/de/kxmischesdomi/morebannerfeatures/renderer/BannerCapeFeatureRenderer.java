@@ -101,7 +101,6 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AbstractClientPlayer,
 						matrices.translate(-0.15, -0.1, 0.015);
 						matrices.scale(1, 1, 0.5F);
 
-						RendererUtils.modifyMatricesDevelopment(matrices);
 						RendererUtils.renderCanvasFromItem(bannerItem, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, cloak);
 
 					} else {
@@ -133,7 +132,6 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AbstractClientPlayer,
 						matrices.mulPose(Vector3f.XP.rotationDegrees(6.0F + r / 2.0F + q));
 						matrices.mulPose(Vector3f.YP.rotationDegrees(180.0F - s / 2.0F));
 
-						RendererUtils.modifyMatricesDevelopment(matrices);
 						RendererUtils.renderCanvasFromItem(bannerItem, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, cloak);
 
 					}
