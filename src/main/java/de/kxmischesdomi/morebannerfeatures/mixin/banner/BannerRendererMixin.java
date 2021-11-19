@@ -24,8 +24,8 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0.2
  */
-@Mixin(value = BannerRenderer.class)
-public abstract class BannerRendererRendererMixin implements BlockEntityRenderer<BannerBlockEntity>  {
+@Mixin(value = BannerRenderer.class, priority = 10000)
+public abstract class BannerRendererMixin implements BlockEntityRenderer<BannerBlockEntity>  {
 
 	@Shadow @Final private ModelPart pole;
 

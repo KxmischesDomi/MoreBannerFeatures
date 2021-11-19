@@ -12,7 +12,7 @@ public class MoreBannerFeatures implements ModInitializer {
 
 	public static final String MOD_ID = "morebannerfeatures";
 	public static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create();
-	public static final boolean developmentBuild = false;
+	public static final boolean developmentBuild = true;
 
 	public static Boolean trinketsInstalled = null;
 

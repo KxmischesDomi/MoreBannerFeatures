@@ -9,6 +9,7 @@ import de.kxmischesdomi.morebannerfeatures.core.config.options.BooleanOption;
 public class MBFOptions {
 
 	public static final BooleanOption BAR;
+	public static final BooleanOption SAMURAI_BANNER;
 	public static final BooleanOption FOX_CORRECTION;
 	public static final BooleanOption BANNER_GLINT;
 	public static final BooleanOption HORSE_SLOT;
@@ -20,7 +21,8 @@ public class MBFOptions {
 	public static final BooleanOption VILLAGER_BANNERS;
 
 	static {
-		BAR = new BooleanOption("bar", false);
+		SAMURAI_BANNER = new BooleanOption("samurai_banner", false);
+		BAR = new BooleanOption("bar", false).display(false);
 		FOX_CORRECTION = new BooleanOption("fox_correction", true);
 		BANNER_GLINT = new BooleanOption("banner_glint", false);
 		HORSE_SLOT = new BooleanOption("horse_slot", true);

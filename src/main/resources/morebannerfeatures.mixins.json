@@ -19,7 +19,7 @@
 		"villager.VillagerEntityMixin"
 	],
 	"client": [
-		"banner.BannerRendererRendererMixin",
+		"banner.BannerRendererMixin",
 		"boat.BoatRendererMixin",
 		"horse.AbstractHorseRendererMixin",
 		"horse.HorseInventoryScreenMixin",
