@@ -40,7 +40,7 @@ dependencies {
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 
-	modImplementation "dev.emi:trinkets:3.0.2"
+	modImplementation "dev.emi:trinkets:3.0.4"
 
 	modImplementation "com.terraformersmc:modmenu:2.0.14"
 
