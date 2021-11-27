@@ -1,5 +1,6 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.llama;
 
+import de.kxmischesdomi.morebannerfeatures.core.accessor.InventoryBannerable;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
  * @since 1.0
  */
 @Mixin(Llama.class)
-public abstract class LlamaMixin extends AbstractChestedHorse implements SideBannerable {
+public abstract class LlamaMixin extends AbstractChestedHorse implements SideBannerable, InventoryBannerable {
 
 	@Shadow public @Nullable abstract DyeColor getSwag();
 
@@ -31,6 +32,16 @@ public abstract class LlamaMixin extends AbstractChestedHorse implements SideBan
 	@Override
 	public float getYOffset() {
 		return getSwag() == null ? 0.14F : 0.21F;
+	}
+
+	@Override
+	public int getTransferIndex() {
+		return hasChest() ? 41 : 38;
+	}
+
+	@Override
+	public int getSlot() {
+		return 0;
 	}
 
 	@Override
