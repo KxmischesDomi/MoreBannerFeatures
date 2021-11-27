@@ -7,7 +7,7 @@
 		"banner.BannerBlockMixin",
 		"banner.StandingAndWallBlockItemMixin",
 		"boat.BoatMixin",
-		"donkey.DonkeyMixin",
+		"horse.AbstractChestedHorseMixin",
 		"horse.AbstractHorseMixin",
 		"horse.HorseInventoryMenuMixin",
 		"llama.LlamaMixin",
@@ -21,15 +21,15 @@
 	"client": [
 		"banner.BannerRendererMixin",
 		"boat.BoatRendererMixin",
+		"fox.FoxHeldItemLayerMixin",
 		"horse.AbstractHorseRendererMixin",
 		"horse.HorseInventoryScreenMixin",
+		"item.BlockEntityWithoutLevelRendererMixin",
 		"llama.LlamaRendererMixin",
 		"pig.PigRendererMixin",
 		"player.CapeLayerMixin",
 		"player.PlayerRendererMixin",
-		"strider.StriderEntityRendererMixin",
-		"item.BlockEntityWithoutLevelRendererMixin",
-		"fox.FoxHeldItemLayerMixin"
+		"strider.StriderEntityRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

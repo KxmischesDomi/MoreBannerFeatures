@@ -2,9 +2,9 @@ package de.kxmischesdomi.morebannerfeatures.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Vector3f;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
+import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
@@ -25,13 +25,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BannerBlockEntity;
-import net.minecraft.world.level.block.entity.BannerPattern;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -76,8 +71,10 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 			matrices.pushPose();
 
 			// START MODIFYING
+			scaleMatricesForEntity(matrices, entity);
 			matrices.mulPose(Vector3f.YP.rotationDegrees(90));
 			modifyMatricesDefault(matrices, true);
+			modifyMatricesForEntity(matrices, entity, true);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
 
 			// FINISHED MODIFYING
@@ -87,8 +84,10 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 			// SECOND BANNER
 
 			// START MODIFYING
+			scaleMatricesForEntity(matrices, entity);
 			matrices.mulPose(Vector3f.YN.rotationDegrees(90));
 			modifyMatricesDefault(matrices, false);
+			modifyMatricesForEntity(matrices, entity, false);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
 
 			// FINISHED MODIFYING
@@ -111,14 +110,38 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 		return offset;
 	}
 
+	private static Vec3 modifyMatricesForEntity(PoseStack matrices, Entity entity, boolean first) {
+
+		if (entity instanceof SideBannerable bannerable) {
+
+			Vec3 offset = new Vec3(bannerable.getXOffset(), bannerable.getYOffset(), bannerable.getZOffset());
+
+			if (first) {
+				matrices.translate(-offset.z(), -offset.y(), offset.x());
+			} else {
+				matrices.translate(offset.z(), -offset.y(), offset.x());
+			}
+
+			return offset;
+		}
+
+		return Vec3.ZERO;
+	}
+
+	private static void scaleMatricesForEntity(PoseStack matrices, Entity entity) {
+
+		if (entity instanceof SideBannerable bannerable) {
+			Vec3 scaleOffset = bannerable.getScaleOffset();
+			if (scaleOffset != null) matrices.scale((float) scaleOffset.x(), (float) scaleOffset.y(), (float) scaleOffset.z());
+		}
+
+	}
+
 	private static void renderBanner(PoseStack matrices, MultiBufferSource vertexConsumers, int light, Entity entity, float tickDelta, ItemStack itemStack) {
 		RendererUtils.modifyMatricesBannerSwing(flagPart, entity, tickDelta, false, aFloat -> -aFloat);
 
 		// Safety try catch to avoid crashes!
 		try {
-			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.createPatterns(((BannerItem)itemStack.getItem()).getColor(), BannerBlockEntity.getItemPatterns(itemStack));
-
-			int overlay = LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0.0F);
 			boolean bar = MBFOptions.BAR.getBooleanValue();
 
 			matrices.pushPose();
@@ -130,13 +153,15 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 			RendererUtils.renderCanvasFromItem(itemStack, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, flagPart);
 
 			matrices.popPose();
-
+			matrices.pushPose();
 			if (bar) {
 				matrices.translate(0, 1.99, -0.07);
 
+				int overlay = LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0.0F);
 				VertexConsumer vertexConsumer = ModelBakery.BANNER_BASE.buffer(vertexConsumers, RenderType::entitySolid);
 				crossbarPart.render(matrices, vertexConsumer, light, overlay);
 			}
+			matrices.popPose();
 
 		} catch (Exception exception) {
 			ErrorSystemManager.reportException();
