@@ -42,7 +42,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 		this.registerDefaultState(this.defaultBlockState().setValue(HANGING, false));
 	}
 
-	@Inject(method = "getStateForPlacement", at = @At(value = "TAIL"), cancellable = true)
+	@Inject(method = "getStateForPlacement", at = @At(value = "RETURN"), cancellable = true)
 	private void getPlacementState(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
 			return;
