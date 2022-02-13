@@ -1,0 +1,19 @@
+{
+	"mbf.options": "更多旗帜功能选项",
+
+	"mbf.options.bar": "布条",
+	"mbf.options.samurai_banner": "武士斗篷",
+	"mbf.options.fox_correction": "狐狸旗帜修复",
+	"mbf.options.banner_glint": "迷人的效果",
+	"mbf.options.horse_slot": "额外的马槽",
+	"mbf.options.errors": "错误消息",
+
+	"mbf.tooltip.bar": "在动物两边的侧面的展示旗帜",
+	"mbf.tooltip.samurai_banner": "将旗帜斗篷显示为武士斗篷[BETA]",
+	"mbf.tooltip.fox_correction": "狐狸嘴上的旗帜将被正确展示.",
+	"mbf.tooltip.horse_slot": "告知是否应激活额外的马槽。如果仅在服务器上禁用，可能会导致问题！",
+	"mbf.tooltip.banner_glint": "所有的旗帜都会有迷人的效果",
+	"mbf.tooltip.errors": "当更多旗帜功能在渲染时捕捉到错误，它将显示在聊天中.",
+
+	"mbf.message.error": "§c§l更多旗帜功能: §c渲染时出错。请点击此消息，在discord上用提供的游戏日志报告此情况。\n此消息可以在设置中停用"
+}
