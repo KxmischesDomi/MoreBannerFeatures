@@ -4,13 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFConfigManager;
 import de.kxmischesdomi.morebannerfeatures.core.config.options.IOption;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Option;
+import net.minecraft.client.OptionInstance;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.OptionsSubScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.util.FormattedCharSequence;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class MBFOptionsScreen extends OptionsSubScreen {
 
 	@SuppressWarnings("resource")
 	public MBFOptionsScreen(Screen previous) {
-		super(previous, Minecraft.getInstance().options, new TranslatableComponent("mbf.options"));
+		super(previous, Minecraft.getInstance().options, MutableComponent.create(new TranslatableContents("mbf.options")));
 		this.previous = previous;
 	}
 
@@ -56,8 +57,8 @@ public class MBFOptionsScreen extends OptionsSubScreen {
 		MBFConfigManager.save();
 	}
 
-	public static Option[] getAllToDisplay() {
-		return MBFConfigManager.getAllOptions().stream().filter(IOption::shouldDisplay).map(iOption -> ((Option) iOption.toOption())).toArray(Option[]::new);
+	public static OptionInstance<?>[] getAllToDisplay() {
+		return MBFConfigManager.getAllOptions().stream().filter(IOption::shouldDisplay).map(iOption -> ((OptionInstance<?>) iOption.toOption())).toArray(OptionInstance[]::new);
 	}
 
 }

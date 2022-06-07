@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.BannerItem;
@@ -49,7 +50,7 @@ public class RendererUtils {
 
 	public static void renderCanvasFromItem(ItemStack itemStack, PoseStack matrixStack, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas) {
 		if (itemStack.getItem() instanceof BannerItem) {
-			List<Pair<BannerPattern, DyeColor>> bannerPatterns = BannerBlockEntity.createPatterns(((BannerItem) itemStack.getItem()).getColor(), BannerBlockEntity.getItemPatterns(itemStack));
+			List<Pair<Holder<BannerPattern>, DyeColor>> bannerPatterns = BannerBlockEntity.createPatterns(((BannerItem) itemStack.getItem()).getColor(), BannerBlockEntity.getItemPatterns(itemStack));
 			BannerRenderer.renderPatterns(matrixStack, vertexConsumers, light, overlay, canvas, ModelBakery.BANNER_BASE, true, bannerPatterns, itemStack.hasFoil());
 		}
 
@@ -60,12 +61,12 @@ public class RendererUtils {
 	 * Couldn't be removed yet because of Waveycapes compatibility.
 	 */
 	@Deprecated(forRemoval = true)
-	public static void renderCanvas(PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas, Material baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns) {
+	public static void renderCanvas(PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas, Material baseSprite, boolean isBanner, List<Pair<Holder<BannerPattern>, DyeColor>> patterns) {
 		BannerRenderer.renderPatterns(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns, false);
 	}
 
 	@Deprecated(forRemoval = true)
-	public static void renderCanvas(PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas, Material baseSprite, boolean isBanner, List<Pair<BannerPattern, DyeColor>> patterns, boolean glint) {
+	public static void renderCanvas(PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, ModelPart canvas, Material baseSprite, boolean isBanner, List<Pair<Holder<BannerPattern>, DyeColor>> patterns, boolean glint) {
 		BannerRenderer.renderPatterns(matrices, vertexConsumers, light, overlay, canvas, baseSprite, isBanner, patterns);
 	}
 

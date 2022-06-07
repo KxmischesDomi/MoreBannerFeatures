@@ -4,8 +4,9 @@ import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.contents.TranslatableContents;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -20,7 +21,7 @@ public class ErrorSystemManager {
 			lastTimeReported = System.currentTimeMillis();
 			LocalPlayer player = Minecraft.getInstance().player;
 			if (player != null) {
-				TranslatableComponent text = new TranslatableComponent("mbf.message.error");
+				MutableComponent text = MutableComponent.create(new TranslatableContents("mbf.message.error"));
 				Style style = text.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/7BSqZa9r3P"));
 				text.setStyle(style);
 				player.displayClientMessage(text, false);

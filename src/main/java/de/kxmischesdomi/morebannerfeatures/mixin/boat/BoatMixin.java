@@ -78,8 +78,8 @@ public abstract class BoatMixin extends Entity implements Bannerable {
 	}
 
 
-	@Inject(method = "hurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/vehicle/Boat;spawnAtLocation(Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;"))
-	private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+	@Inject(method = "destroy", at = @At(value = "TAIL"))
+	private void damage(DamageSource damageSource, CallbackInfo ci) {
 		if (getBannerItem() != null && !getBannerItem().isEmpty()) {
 			spawnAtLocation(getBannerItem());
 			setBannerItem(ItemStack.EMPTY);
