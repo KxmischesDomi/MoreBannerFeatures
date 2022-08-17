@@ -58,6 +58,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 			if (direction == Direction.UP && ctx.getNearestLookingVerticalDirection() == Direction.UP) {
 				if (ctx.getLevel().getBlockState(ctx.getClickedPos().above()).getMaterial().isSolid()) {
 					cir.setReturnValue(state.setValue(HANGING, true));
+					return;
 				}
 
 			}
