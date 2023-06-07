@@ -2,8 +2,7 @@ package de.kxmischesdomi.morebannerfeatures.mixin.boat;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
@@ -21,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -52,7 +52,7 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
 
 				matrices.pushPose();
 
-				matrices.mulPose(Vector3f.YP.rotationDegrees(180 - f));
+				matrices.mulPose(Axis.YP.rotationDegrees(180 - f));
 
 				float h = entity.getHurtTime() - g;
 				float j = entity.getDamage() - g;
@@ -60,15 +60,16 @@ public abstract class BoatRendererMixin extends EntityRenderer<Boat> {
 					j = 0.0F;
 				}
 				if (h > 0.0F) {
-					matrices.mulPose(Vector3f.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0F * entity.getHurtDir()));
+					matrices.mulPose(Axis.XP.rotationDegrees(Mth.sin(h) * h * j / 10.0F * entity.getHurtDir()));
 				}
 
 				float k = entity.getBubbleAngle(g);
 				if (!Mth.equal(k, 0.0F)) {
-					matrices.mulPose(new Quaternion(new Vector3f(1.0F, 0.0F, 1.0F), entity.getBubbleAngle(g), true));
+					// TODO: TEST CHANGES
+					matrices.mulPose(new Quaternionf(1.0F, 0.0F, 1.0F, entity.getBubbleAngle(g)));
 				}
 
-				matrices.mulPose(Vector3f.YP.rotationDegrees(180));
+				matrices.mulPose(Axis.YP.rotationDegrees(180));
 
 				matrices.translate(0, 1.05, -0.937);
 

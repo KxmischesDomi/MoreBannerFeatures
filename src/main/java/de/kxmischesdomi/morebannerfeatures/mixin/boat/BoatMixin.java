@@ -100,7 +100,7 @@ public abstract class BoatMixin extends Entity implements Bannerable {
 
 		ItemStack itemStack = player.getItemInHand(hand);
 		if (itemStack.getItem() instanceof BannerItem) {
-			if (getBannerItem().sameItem(itemStack)) return;
+			if (ItemStack.isSameItem(getBannerItem(), itemStack)) return;
 
 			if (!getBannerItem().isEmpty()) {
 				spawnAtLocation(getBannerItem());
@@ -120,7 +120,7 @@ public abstract class BoatMixin extends Entity implements Bannerable {
 		} else if (itemStack.getItem() instanceof ShearsItem && !getBannerItem().isEmpty()) {
 			spawnAtLocation(getBannerItem());
 
-			this.level.playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+			this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
 			this.gameEvent(GameEvent.SHEAR, player);
 			itemStack.hurtAndBreak(1, player, (playerx) -> {
 				playerx.broadcastBreakEvent(hand);

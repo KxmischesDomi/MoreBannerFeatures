@@ -2,7 +2,7 @@ package de.kxmischesdomi.morebannerfeatures.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
@@ -70,7 +70,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AbstractClientPlayer,
 						matrices.translate(0, -0.2, 0.5);
 
 						if (player.isCrouching()) {
-							matrices.mulPose(Vector3f.XP.rotationDegrees(28));
+							matrices.mulPose(Axis.XP.rotationDegrees(28));
 							matrices.translate(0, -0.1, -0.15);
 						} else {
 							matrices.translate(0, 0, -0.02);
@@ -84,7 +84,7 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AbstractClientPlayer,
 
 						matrices.scale(0.99F, 0.99F, 1.25F);
 						matrices.translate(0, -2.3, 0.97);
-						matrices.mulPose(Vector3f.YP.rotationDegrees(90));
+						matrices.mulPose(Axis.YP.rotationDegrees(90));
 						bar.render(matrices, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(player, 0));
 
 						matrices.popPose();
@@ -92,11 +92,11 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AbstractClientPlayer,
 						matrices.pushPose();
 						matrices.scale(scale, scale, scale);
 						matrices.translate(0, 1.5, -0.75);
-						matrices.mulPose(Vector3f.XN.rotationDegrees(10));
+						matrices.mulPose(Axis.XN.rotationDegrees(10));
 						pole.render(matrices, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(player, 0));
 						matrices.popPose();
 
-						matrices.mulPose(Vector3f.YP.rotationDegrees(90));
+						matrices.mulPose(Axis.YP.rotationDegrees(90));
 
 						matrices.translate(-0.15, -0.1, 0.015);
 						matrices.scale(1, 1, 0.5F);
@@ -128,9 +128,9 @@ public class BannerCapeFeatureRenderer extends RenderLayer<AbstractClientPlayer,
 							matrices.translate(0, 0.14, -0.02);
 						}
 
-						matrices.mulPose(Vector3f.ZP.rotationDegrees(s / 2.0F));
-						matrices.mulPose(Vector3f.XP.rotationDegrees(6.0F + r / 2.0F + q));
-						matrices.mulPose(Vector3f.YP.rotationDegrees(180.0F - s / 2.0F));
+						matrices.mulPose(Axis.ZP.rotationDegrees(s / 2.0F));
+						matrices.mulPose(Axis.XP.rotationDegrees(6.0F + r / 2.0F + q));
+						matrices.mulPose(Axis.YP.rotationDegrees(180.0F - s / 2.0F));
 
 						RendererUtils.renderCanvasFromItem(bannerItem, matrices, vertexConsumers, light, OverlayTexture.NO_OVERLAY, cloak);
 

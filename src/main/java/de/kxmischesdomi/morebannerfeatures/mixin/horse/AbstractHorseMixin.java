@@ -53,7 +53,7 @@ public abstract class AbstractHorseMixin extends Animal implements SideBannerabl
 		this.entityData.set(BANNER_ITEM, newStack);
 
 		if (newStack != oldStack && newStack.getItem() instanceof BannerItem) {
-			this.level.playSound(null, this, SoundEvents.ARMOR_EQUIP_LEATHER, SoundSource.PLAYERS, 0.5F, 1.0F);
+			this.level().playSound(null, this, SoundEvents.ARMOR_EQUIP_LEATHER, SoundSource.PLAYERS, 0.5F, 1.0F);
 		}
 
 	}

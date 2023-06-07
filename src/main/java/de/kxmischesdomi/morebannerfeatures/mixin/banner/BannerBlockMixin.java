@@ -56,7 +56,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 		for(int var5 = 0; var5 < var4; ++var5) {
 			Direction direction = var3[var5];
 			if (direction == Direction.UP && ctx.getNearestLookingVerticalDirection() == Direction.UP) {
-				if (ctx.getLevel().getBlockState(ctx.getClickedPos().above()).getMaterial().isSolid()) {
+				if (ctx.getLevel().getBlockState(ctx.getClickedPos().above()).isSolid()) {
 					cir.setReturnValue(state.setValue(HANGING, true));
 					return;
 				}
@@ -87,7 +87,7 @@ public abstract class BannerBlockMixin extends AbstractBannerBlock {
 			return;
 		}
 		if (state.getValue(HANGING) || !cir.getReturnValue()) {
-			cir.setReturnValue(world.getBlockState(pos.above()).getMaterial().isSolid());
+			cir.setReturnValue(world.getBlockState(pos.above()).isSolid());
 		}
 	}
 

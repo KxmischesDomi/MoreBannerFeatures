@@ -111,9 +111,9 @@ public abstract class PigMixin extends Animal implements SideBannerable {
 
 		ItemStack itemStack = player.getItemInHand(hand);
 		if (itemStack.getItem() instanceof BannerItem) {
-			if (getBannerItem().sameItem(itemStack)) return;
+			if (ItemStack.isSameItem(getBannerItem(), itemStack)) return;
 
-			this.level.playSound(null, this, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
+			this.level().playSound(null, this, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
 
 			if (!getBannerItem().isEmpty()) {
 				spawnAtLocation(getBannerItem());
@@ -131,7 +131,7 @@ public abstract class PigMixin extends Animal implements SideBannerable {
 			cir.cancel();
 		} else if (itemStack.getItem() instanceof ShearsItem && !getBannerItem().isEmpty()) {
 
-			this.level.playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+			this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
 			this.gameEvent(GameEvent.SHEAR, player);
 			itemStack.hurtAndBreak(1, player, (playerx) -> {
 				playerx.broadcastBreakEvent(hand);

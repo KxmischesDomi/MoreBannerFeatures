@@ -2,9 +2,9 @@ package de.kxmischesdomi.morebannerfeatures.core.config.options;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import net.minecraft.client.OptionInstance;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.TranslatableContents;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -22,14 +22,14 @@ public class BooleanOption implements IOption {
 	public BooleanOption(String key) {
 		this.key = key;
 		this.value = false;
-		this.tooltip = MutableComponent.create(new TranslatableContents("mbf.tooltip." + key));
+		this.tooltip = Component.translatable("mbf.tooltip." + key);
 	}
 
 	public BooleanOption(String key, boolean defaultValue) {
 		this.key = key;
 		this.value = defaultValue;
 		this.defaultValue = defaultValue;
-		this.tooltip = MutableComponent.create(new TranslatableContents("mbf.tooltip." + key));
+		this.tooltip = Component.translatable("mbf.tooltip." + key);
 	}
 
 	@Override
@@ -51,11 +51,11 @@ public class BooleanOption implements IOption {
 	@Override
 	public Object toOption() {
 		if (tooltip != null) {
-			return net.minecraft.client.OptionInstance.createBoolean("mbf.options." + key, minecraft -> aBoolean -> minecraft.font.split(tooltip, 200), value, newValue -> {
+			return OptionInstance.createBoolean("mfb.options." + key, (value) -> Tooltip.create(tooltip), value, newValue -> {
 				this.value = newValue;
 			});
 		} else {
-			return net.minecraft.client.OptionInstance.createBoolean("mbf.options." + key, value, newValue -> {
+			return OptionInstance.createBoolean("mbf.options." + key, value, newValue -> {
 				this.value = newValue;
 			});
 		}

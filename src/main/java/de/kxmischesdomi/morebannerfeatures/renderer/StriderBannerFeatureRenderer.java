@@ -2,7 +2,7 @@ package de.kxmischesdomi.morebannerfeatures.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.errors.ErrorSystemManager;
 import de.kxmischesdomi.morebannerfeatures.utils.RendererUtils;
@@ -46,9 +46,9 @@ public class StriderBannerFeatureRenderer extends RenderLayer<Strider, StriderMo
 
 				matrices.pushPose();
 
-				matrices.mulPose(Vector3f.YP.rotationDegrees(headYaw));
+				matrices.mulPose(Axis.YP.rotationDegrees(headYaw));
 				if (!entity.isVehicle()) {
-					matrices.mulPose(Vector3f.XP.rotationDegrees(headPitch));
+					matrices.mulPose(Axis.XP.rotationDegrees(headPitch));
 				}
 
 				matrices.scale(0.7f, 0.7f, 0.7f);

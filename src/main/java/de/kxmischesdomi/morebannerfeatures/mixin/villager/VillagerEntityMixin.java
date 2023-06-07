@@ -67,9 +67,9 @@ public abstract class VillagerEntityMixin extends AbstractVillager implements Ba
 		ItemStack itemStack = player.getItemInHand(hand);
 		ItemStack bannerItem = getBannerItem();
 		if (itemStack.getItem() instanceof BannerItem) {
-			if (bannerItem.sameItem(itemStack)) return;
+			if (ItemStack.isSameItem(bannerItem, itemStack)) return;
 
-			this.level.playSound(null, this, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
+			this.level().playSound(null, this, SoundEvents.HORSE_STEP_WOOD, SoundSource.PLAYERS, 1.0F, 1.0F);
 
 			if (!bannerItem.isEmpty()) {
 				spawnAtLocation(bannerItem);
@@ -87,7 +87,7 @@ public abstract class VillagerEntityMixin extends AbstractVillager implements Ba
 			cir.cancel();
 		} else if (itemStack.getItem() instanceof ShearsItem) {
 
-			this.level.playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+			this.level().playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
 			this.gameEvent(GameEvent.SHEAR, player);
 			itemStack.hurtAndBreak(1, player, (playerx) -> {
 				playerx.broadcastBreakEvent(hand);

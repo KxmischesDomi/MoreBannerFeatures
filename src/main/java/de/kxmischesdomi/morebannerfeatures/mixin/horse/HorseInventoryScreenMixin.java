@@ -1,10 +1,9 @@
 package de.kxmischesdomi.morebannerfeatures.mixin.horse;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import de.kxmischesdomi.morebannerfeatures.MoreBannerFeatures;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.network.chat.Component;
@@ -37,19 +36,18 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
 	}
 
 	@Inject(method = "renderBg", at = @At(value = "TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
-	public void drawBackground(PoseStack matrices, float delta, int mouseX, int mouseY, CallbackInfo ci) {
+	public void drawBackground(GuiGraphics guiGraphics, float f, int i, int j, CallbackInfo ci, int k, int l) {
 
 
 		if (this.horse instanceof Bannerable && MBFOptions.HORSE_SLOT.getBooleanValue()) {
-			int i = (this.width - this.imageWidth) / 2;
-			int j = (this.height - this.imageHeight) / 2;
+			// TODO: TEST CHANGES
+			int localI = (this.width - this.imageWidth) / 2;
+			int localJ = (this.height - this.imageHeight) / 2;
 
-			RenderSystem.setShaderTexture(0, SLOT_BACKGROUND);
-			blit(matrices, i + 7, j + 35 + 18, 0, 0, 18, 18, 18, 18);
+			guiGraphics.blit(SLOT_BACKGROUND, localI + 7, localJ + 35 + 18, 0, 0, 18, 18, 18, 18);
 
 			if (((Bannerable) this.horse).getBannerItem().isEmpty()) {
-				RenderSystem.setShaderTexture(0, SLOT_ICON);
-				blit(matrices, i + 7, j + 35 + 18, 0, 0, 18, 18, 18, 18);
+				guiGraphics.blit(SLOT_ICON, localI + 7, localJ + 35 + 18, 0, 0, 18, 18, 18, 18);
 			}
 
 		}

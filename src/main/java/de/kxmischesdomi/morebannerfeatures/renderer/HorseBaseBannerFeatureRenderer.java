@@ -2,7 +2,7 @@ package de.kxmischesdomi.morebannerfeatures.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.Bannerable;
 import de.kxmischesdomi.morebannerfeatures.core.accessor.SideBannerable;
 import de.kxmischesdomi.morebannerfeatures.core.config.MBFOptions;
@@ -60,7 +60,7 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 
 			if (entity instanceof AbstractHorse abstractHorse) {
 				float o = abstractHorse.getStandAnim(tickDelta);
-				matrices.mulPose(Vector3f.XP.rotation(o * -0.7853982F));
+				matrices.mulPose(Axis.XP.rotation(o * -0.7853982F));
 				matrices.translate(0, o * -0.4136991F, o * 0.3926991F);
 			}
 
@@ -72,7 +72,7 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 
 			// START MODIFYING
 			scaleMatricesForEntity(matrices, entity);
-			matrices.mulPose(Vector3f.YP.rotationDegrees(90));
+			matrices.mulPose(Axis.YP.rotationDegrees(90));
 			modifyMatricesDefault(matrices, true);
 			modifyMatricesForEntity(matrices, entity, true);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());
@@ -85,7 +85,7 @@ public class HorseBaseBannerFeatureRenderer extends RenderLayer<AbstractHorse, H
 
 			// START MODIFYING
 			scaleMatricesForEntity(matrices, entity);
-			matrices.mulPose(Vector3f.YN.rotationDegrees(90));
+			matrices.mulPose(Axis.YN.rotationDegrees(90));
 			modifyMatricesDefault(matrices, false);
 			modifyMatricesForEntity(matrices, entity, false);
 			RendererUtils.modifyMatricesFreezing(matrices, entity, entity.isFullyFrozen());

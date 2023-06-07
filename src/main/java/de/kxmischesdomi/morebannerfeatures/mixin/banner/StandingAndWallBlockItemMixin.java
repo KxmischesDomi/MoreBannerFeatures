@@ -32,7 +32,7 @@ public abstract class StandingAndWallBlockItemMixin extends BlockItem {
 		super(block, settings);
 	}
 
-	@Inject(method = "getPlacementState", locals = LocalCapture.CAPTURE_FAILSOFT, at = @At(value = "FIELD", target = "Lnet/minecraft/core/Direction;UP:Lnet/minecraft/core/Direction;"), cancellable = true)
+	@Inject(method = "getPlacementState", locals = LocalCapture.CAPTURE_FAILSOFT, at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Direction;getOpposite()Lnet/minecraft/core/Direction;"), cancellable = true)
 	private void getPlacementState(BlockPlaceContext context, CallbackInfoReturnable<BlockState> cir, BlockState blockState, LevelReader worldView, BlockPos blockPos, Direction[] directions, int i, int i1) {
 
 		if (!MBFOptions.HANGING_BANNERS.getBooleanValue()) {
