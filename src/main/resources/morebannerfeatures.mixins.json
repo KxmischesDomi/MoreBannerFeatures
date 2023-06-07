@@ -29,7 +29,9 @@
 		"pig.PigRendererMixin",
 		"player.CapeLayerMixin",
 		"player.PlayerRendererMixin",
-		"strider.StriderEntityRendererMixin"
+		"strider.StriderEntityRendererMixin",
+		"camel.CamelMixin",
+		"camel.CamelRendererMixin",
 	],
 	"injectors": {
 		"defaultRequire": 1
