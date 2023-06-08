@@ -31,7 +31,7 @@
 		"player.PlayerRendererMixin",
 		"strider.StriderEntityRendererMixin",
 		"camel.CamelMixin",
-		"camel.CamelRendererMixin",
+		"camel.CamelRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
