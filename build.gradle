@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.2-SNAPSHOT'
+	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -40,7 +40,7 @@ dependencies {
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 
-	modCompileOnly "dev.emi:trinkets:${project.trinkets_version}"
+	modImplementation "dev.emi:trinkets:${project.trinkets_version}"
 
 	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 
